@@ -14,6 +14,8 @@ Você também pode criar
 
 3. Donca vagabunda,
 
+4. Fuder de ladinho,
+
 assim como
 
 * listas;
@@ -23,6 +25,7 @@ assim como
 e imagens. Lembre que todas as imagens devem estar em uma subpasta *img*.
 
 ![](logo.png)
+![](eu_gordao.jfif)
 
 Para tabelas, usa-se a [notação do
 MultiMarkdown](https://fletcher.github.io/MultiMarkdown-6/syntax/tables.html),
@@ -32,6 +35,7 @@ possibilidades.
 | coluna a | coluna b |
 |----------|----------|
 | 1        | 2        |
+| No       | Homo     |
 
 Ao longo de um texto, você pode usar *itálico*, **negrito**, {red}(vermelho) e
 [[tecla]]. Também pode usar uma equação LaTeX: $f(n) \leq g(n)$. Se for muito
@@ -45,6 +49,8 @@ imagens estão. Essa pasta também deve estar em *img*.
 :bubble
 
 Você também pode inserir código, inclusive especificando a linguagem.
+
+:poggzin
 
 ``` py
 def f():

@@ -5,15 +5,36 @@ Counting Sort
 Introdução ao Counting Sort
 ---------
 
-O Counting Sort é um algoritmo de ordenação que funciona contando o número de objetos que possuem valores de chaves distintos. É eficiente quando o intervalo dos valores dos objetos a serem ordenados não é significativamente maior do que o número de objetos. A ideia básica é determinar, para cada entrada \( x \), o número de elementos menores que \( x \).
+O Counting Sort é um algoritmo de ordenação que funciona contando o número de objetos que possuem valores de chaves distintos e reagrupando-os posteriormente em relação a recorrência em que aparecem no algorítimo, portanto é especialmente eficiente quando o intervalo de dados de entrada é não muito maior que o número de objetos a serem ordenados.
+O mesmo é um algorítimo extremamente eficiente para as situações desejadas e possuí as seguintes peculiaridades.
 
-Passos para a execução do Counting Sort:
+* Complexidade O(n) em todos os casos
+* Algorìtimo de ordenação estável
+* Utiliza memória auxíliar
+* Ordena apenas números inteiros
 
-1. Contar a ocorrência de cada elemento;
-2. Acumular o contador de cada índice;
-3. Posicionar cada elemento em sua posição correta no array de saída.
+Por que o Counting Sort??
+--------
 
-O Counting Sort é especialmente eficiente quando o intervalo de dados de entrada é não muito maior que o número de objetos a serem ordenados.
+O Counting Sort é um algorítimo de ordenação especializado em vetores de números inteiros com baixa variação interna, uma vez que o mesmo aloca um vetor de tamanho igual ao número de possibilidades do vetor ordenado e utiliza tais valores como index do mesmo, portanto tal algorítimo não pode ser utilizado em vetores de números não inteiros, uma vez que depende que tais números virarem futuramente index de um próximo vetor é necessário que tais valores sejam discretos para tal.
+
+!!! Extra
+É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma, uma vez que o processo de multiplicação pode aumentar a distância entre os valores do vetor, prejudicando a eficiência do código.
+!!!
+
+Portanto, as aplicações de Counting Sort envolvem ocasiões em que existe baixa variância nos números do vetor principal (pelo menos inferior ao tamanho do vetor) e somente números inteiros positivos (embora números negativos e contínuos possam ser processados). 
+O Counting Sort também pode ser buscado em situações em que se necessita de um algorítimo estável e não existe restrição para uso de memória auxíliar.
+
+Usos não efetivos para o Counting Sort:
+
+* Preços em um site
+* Notas em uma sala de aula
+* 
+
+Usos efetivos para o Counting Sort:
+
+* Idades de um grande grupo de pessoas
+* Qualquer ordenação por index
 
 Estrutura do Counting Sort
 ---------
