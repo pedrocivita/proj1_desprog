@@ -12,10 +12,6 @@ Você também pode criar
 
 2. ordenadas,
 
-3. Donca vagabunda,
-
-4. Fuder de ladinho,
-
 assim como
 
 * listas;
@@ -49,6 +45,8 @@ imagens estão. Essa pasta também deve estar em *img*.
 :bubble
 
 Você também pode inserir código, inclusive especificando a linguagem.
+
+:counting
 
 :poggzin
 
