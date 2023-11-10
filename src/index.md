@@ -152,9 +152,9 @@ Ordenação de Objetos Complexos com Counting Sort
 ---------
 O algoritmo também pode ser adaptado para organizar estruturas de dados complexas, como registros de alunos. A seguir, mostramos como utilizar o Counting Sort para ordenar um array de objetos alunos.
 
-Exemplo 1 
----------
-Considere um array de objetos alunos que precisam ser ordenados por número de matrícula.
+Agora, considere um array de objetos alunos que precisam ser ordenados por número de matrícula!
+
+Como podemos implementar essa ideia?
 
 Implementação em C
 ---------
@@ -180,31 +180,30 @@ void counting_sort(int *array, int size) {
     // Copiar para o array original
     for(i = 0; i < size; i++) array[i] = sorted[i];
 }
+
 ```
+Para melhor entender essa implementação vamos ao passo a passo, ou melhor, loop a loop!
+
+Loop 1: Contar as ocorrências
+---------
+:loop1
+
+Loop 2: Transformar count em posições cumulativas
+---------
+:loop2
+
+Loop 3: Ordenar o array
+---------
+:loop3
+
+Loop 4: Copiar para o array original
+---------
+:loop4
+
 Exercícios de Counting Sort
 ---------
-??? Exercício 1 - Ordenação Simples de Números
-Implemente o Counting Sort como mostrado acima.
 
-::: Gabarito
-
-```c
-// Inserir gabarito para exercício 1 aqui.
-```
-:::
-???
-
-??? Exercício 2 - Ordenação de Registros de Alunos
-Adapte e implemente o Counting Sort para ordenar um array de objetos alunos por número de matrícula, como descrito na seção sobre ordenação de objetos complexos.
-
-::: Gabarito
-
-```c
-// Inserir gabarito para exercício 2 aqui.
-```
-???
-
-??? Exercício 3 - Ordenação de Números com um Intervalo Maior
+??? Exercício 1 - Ordenação de Números com um Intervalo Maior
 Adapte o Counting Sort para ordenar um array de números inteiros onde o maior número é menor que 100.
 
 ::: Gabarito

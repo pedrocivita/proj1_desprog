@@ -48,8 +48,6 @@ Você também pode inserir código, inclusive especificando a linguagem.
 
 :counting
 
-:poggzin
-
 ``` py
 def f():
     print('hello world')
