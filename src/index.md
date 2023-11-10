@@ -18,14 +18,81 @@ Ideia
 
 O Counting Sort opera contando a frequência de cada valor dentro de um conjunto limitado e usando essa contagem para posicionar cada elemento diretamente em sua posição correta no vetor ordenado. É um algoritmo eficiente para dados com variação limitada de valores, pois sua velocidade não depende de comparações diretas entre elementos.
 
-Implementação
+Características principais
 ---------
 
-A função `counting_sort` abaixo ordena um vetor de números inteiros que se enquadram em um intervalo conhecido, como de 0 a 9. Um vetor de contagem acumula a frequência de cada valor, e um vetor temporário organiza os elementos antes de serem recolocados no vetor original.
+- Complexidade O(n) em todos os casos;
+- É um algoritmo de ordenação estável;
+- Utiliza memória auxiliar;
+- É mais eficiente para ordenar números inteiros.
+
+
+Por que o Counting Sort?
+------------
+
+O Counting Sort é ideal e apresenta complexidade *O(n)* para situações com baixa variação nos valores de entrada e é particularmente útil quando os dados são números inteiros positivos.
+
+!!!Observação
+É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma (*inteiros*). Se fosse um vetor de valores contínuos(*floats*), por exemplo, a quantidade de multiplicações necessárias para ajustar os valores prejudicariam muito a eficiência do código.
+!!!
+
+Aplicações reais do Counting Sort
+------------
+Usos não efetivos:
+
+* Preços em um site, devido à presença de muitos valores decimais e variação extensa.
+* Notas em uma sala de aula, onde as notas podem ter muitos decimais e variar de 0 a 100.
+* Datas de eventos históricos, que tendem a ter uma grande variação e não se beneficiam da ordenação baseada em contagem.
+
+Usos efetivos:
+
+* Idades de um grande grupo de pessoas, com variação geralmente entre 0 e 100.
+* Votos em uma eleição com um número limitado de candidatos, perfeitos para a contagem e reagrupamento rápido.
+* Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.
+
+Exercícios de Fixação
+------------
+Uma empresa especializada em cinema está promovendo um site em que seus usúarios possam atribuir notas para diversos critérios de filmes que assistiram e comparar entre si tais notas.
+Por se tratar de um site interativo, no qual outros usúarios possam visualizar suas notas em tempo real, é esperado que tal algorítmo seja rapido.
+A empresa está disposta a lidar com memória auxíliar, e o algorítimo precisa ser também estável, uma vez que tal ordenação se dará por diversos critérios de notas.
+Tais notas podem variar de 1 a 5 com intervalos de números inteiros.
+??? Exercício 1
+
+Para o caso acima, você acredita que o Counting Sort seria um algoritmo de ordenação efetivo?
+
+::: Gabarito
+Sim, em tal caso o Counting Sort seria o algorítimo de ordenação perfeito, atendendo a todas as demandas do cliente.
+:::
+
+???
+
+??? Exercício 2
+
+Para o caso das notas poderem ser atribuídas de 1 a 10, contando com notas quebradas como 7.5 e 3.1 e uma possibilidade de milhares de filmes no catálogo de cada cliente, o Counting Sort seria efetivo?
+
+::: Gabarito
+Se atendo ao critério de que o algorítmo não trabalha com números não inteiros pode-se afirmar que não.
+Todávia, como mencionado anteriormente, o algorítimo não trabalha bem específicamente com intervalos de números contínuos, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algorítimo efetivo.
+:::
+
+???
+
+Ordenação de Objetos Complexos com Counting Sort
+---------
+O algoritmo também pode ser adaptado para organizar estruturas de dados complexas, como registros de alunos. A seguir, mostramos como utilizar o Counting Sort para ordenar um array de objetos alunos.
+
+Agora, considere um array de objetos alunos que precisam ser ordenados por número de matrícula!
+
+Como podemos implementar essa ideia?
+
+Implementação em C
+---------
+
+A função **counting_sort** abaixo ordena um vetor de números inteiros que se enquadram em um intervalo conhecido, no caso de 0 a 9. Um vetor de contagem acumula a frequência de cada valor, e um vetor temporário organiza os elementos antes de serem recolocados no vetor original.
+
+O código a seguir ilustra a implementação da ordenação de objetos complexos usando Counting Sort em C:
 
 ```c
-#include <stdio.h>
-
 void counting_sort(int v[], int n) {
     int count[10] = {0}; // Intervalo de 0 a 9
     int sorted[n], i;
@@ -45,232 +112,119 @@ void counting_sort(int v[], int n) {
     for(i = 0; i < n; i++) v[i] = sorted[i];
 }
 
-int main() {
-    int v[] = {4, 2, 2, 8, 3, 3, 1, 0, 0, 5, 7, 6, 9, 9, 8, 5, 4, 3};
-    int n = sizeof(v) / sizeof(v[0]);
-
-    counting_sort(v, n);
-
-    // Imprimir o vetor ordenado
-    for(int i = 0; i < n; i++) printf("%d ", v[i]);
-    printf("\n");
-
-    return 0;
-}
-```
-
-Introdução ao Counting Sort
----------
-
-O Counting Sort é um algoritmo de ordenação que é eficaz quando o intervalo de dados de entrada não é significativamente maior que o número de objetos a serem ordenados. Possui as seguintes características:
-
-- Complexidade O(n) em todos os casos
-- É um algoritmo de ordenação estável
-- Utiliza memória auxiliar
-- É mais eficiente para ordenar números inteiros
-
-Exemplo de Função Padrão de Counting Sort
----------
-
-O exemplo a seguir mostra como o Counting Sort pode ser usado para ordenar um array de números inteiros onde cada número está entre 0 e 9:
-
-```c
-void counting_sort(int *array, int size) {
-    int count[10] = {0}; // Sabemos que os números vão de 0 a 9
-    int sorted[size], i;
-
-    // Contar as ocorrências
-    for(i = 0; i < size; i++) count[array[i]]++;
-
-    // Transformar count em posições cumulativas
-    for(i = 1; i < 10; i++) count[i] += count[i - 1];
-
-    // Ordenar o array
-    for(i = size - 1; i >= 0; i--) {
-        sorted[--count[array[i]]] = array[i];
-    }
-
-    // Copiar para o array original
-    for(i = 0; i < size; i++) array[i] = sorted[i];
-}
-
-int main() {
-    int array[] = {4, 2, 2, 8, 3, 3, 1, 0, 0, 5, 7, 6, 9, 9, 8, 5, 4, 3};
-    int size = sizeof(array) / sizeof(array[0]);
-
-    counting_sort(array, size);
-
-    // Imprimir o array ordenado
-    for(int i = 0; i < size; i++) printf("%d ", array[i]);
-    printf("\n");
-
-    return 0;
-}
-```
-
-Por que o Counting Sort?
-------------
-
-O Counting Sort é ideal para situações com baixa variação nos valores de entrada e é particularmente útil quando os dados são números inteiros positivos. É possível estender seu uso para incluir números negativos e contínuos com algumas adaptações.
-
-!!! Extra
-É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma, uma vez que o processo de multiplicação pode aumentar a distância entre os valores do vetor, prejudicando a eficiência do código.
-!!!
-
-Aplicações do Counting Sort
-------------
-Usos não efetivos:
-
-* Preços em um site, devido à presença de muitos valores decimais e variação extensa.
-* Notas em uma sala de aula, onde as notas podem ter muitos decimais e variar de 0 a 100.
-* Datas de eventos históricos, que tendem a ter uma grande variação e não se beneficiam da ordenação baseada em contagem.
-
-Usos efetivos:
-
-* Idades de um grande grupo de pessoas, com variação geralmente entre 0 e 100.
-* Votos em uma eleição com um número limitado de candidatos, perfeitos para a contagem e reagrupamento rápido.
-* Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.
-
-??? Teste
-
-Para o seguinte caso, Counting Sort seria um algorìtimo de ordenação efetivo?
-
-Uma empresa especializada em cinema está promovendo um site em que seus usúarios possam atribuir notas para diversos critérios de filmes que assistiram e comparar entre si tais notas.
-Por se tratar de um site interativo, no qual outros usúarios possam visualizar suas notas em tempo real, é esperado que tal algorítmo seja rapido.
-A empresa está disposta a lidar com memória auxíliar, e o algorítimo precisa ser também estável, uma vez que tal ordenação se dará por diversos critérios de notas.
-Tais notas podem variar de 1 a 5 com intervalos de números inteiros.
-
-::: Gabarito
-Sim, em tal caso o Counting Sort seria o algorítimo de ordenação perfeito, atendendo a todas as demandas do cliente.
-:::
-
-???
-
-??? Teste 2
-
-Para o caso das notas poderem ser atribuídas de 1 a 10, contando com notas quebradas como 7.5 e 3.1 e uma possibilidade de milhares de filmes no catálogo de cada cliente, o Counting Sort seria efetivo?
-
-::: Gabarito
-Se atendo ao critério de que o algorítmo não trabalha com números não inteiros pode-se afirmar que não.
-Todávia, como mencionado anteriormente, o algorítimo não trabalha bem específicamente com intervalos de números contínuos, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algorítimo efetivo.
-:::
-
-???
-
-Estrutura do Counting Sort
----------
-* Inicialização de um array para contagem;
-* Contagem das ocorrências de cada número no array de entrada;
-* Acumulação das contagens para obter posições no array de saída;
-* Movimentação dos objetos para suas posições corretas.
-
-Aqui está um exemplo de array antes e depois da aplicação do Counting Sort:
-
-| Antes   | Depois  |
-|---------|---------|
-| 3       | 1       |
-| 6       | 2       |
-| 4       | 3       |
-| 1       | 4       |
-| 2       | 6       |
-
-Ordenação de Objetos Complexos com Counting Sort
----------
-O algoritmo também pode ser adaptado para organizar estruturas de dados complexas, como registros de alunos. A seguir, mostramos como utilizar o Counting Sort para ordenar um array de objetos alunos.
-
-Agora, considere um array de objetos alunos que precisam ser ordenados por número de matrícula!
-
-Como podemos implementar essa ideia?
-
-Implementação em C
----------
-
-O código a seguir ilustra a implementação da ordenação de objetos complexos usando Counting Sort em C:
-
-```c
-void counting_sort(int *array, int size) {
-    int count[10] = {0}; // Sabemos que os números vão de 0 a 9
-    int sorted[size], i;
-
-    // Contar as ocorrências
-    for(i = 0; i < size; i++) count[array[i]]++;
-
-    // Transformar count em posições cumulativas
-    for(i = 1; i < 10; i++) count[i] += count[i - 1];
-
-    // Ordenar o array
-    for(i = size - 1; i >= 0; i--) {
-        sorted[--count[array[i]]] = array[i];
-    }
-
-    // Copiar para o array original
-    for(i = 0; i < size; i++) array[i] = sorted[i];
-}
-
 ```
 Para melhor entender essa implementação vamos ao passo a passo, ou melhor, loop a loop!
 
-Loop 1: Contar as ocorrências
----------
+* **Loop 1: Contar as ocorrências**
+
 :loop1
 
-Loop 2: Transformar count em posições cumulativas
----------
+* **Loop 2: Transformar count em posições cumulativas**
+
 :loop2
 
-Loop 3: Ordenar o array
----------
+* **Loop 3: Ordenar o array**
+
 :loop3
 
-Loop 4: Copiar para o array original
----------
+* **Loop 4: Copiar para o array original**
+
 :loop4
 
-Exercícios de Counting Sort
+Desafios
 ---------
 
-??? Exercício 1 - Ordenação de Números com um Intervalo Maior
-Adapte o Counting Sort para ordenar um array de números inteiros onde o maior número é menor que 100.
+??? Desafio 1 - Ordenação de Números com um Intervalo Maior
+Adapte a função **counting_sort** para que ela possa ordenar um array de números inteiros onde o maior número é conhecido e é menor que 100. Você precisará alterar a função para que ela determine o intervalo de valores dentro do array e crie um vetor de contagem adequado.
+
+::: Dicas
+
+1. **Encontrar o Valor Máximo:** Primeiro, percorra todo o array para encontrar o maior valor. Este será o seu ponto de referência para o tamanho do vetor de contagem.
+
+2. **Inicializar o Vetor de Contagem:** Utilize a função **calloc** para criar e inicializar o vetor de contagem. Lembre-se de que **calloc** inicializa todos os valores do vetor alocado com zero.
+
+3. **Contagem:** Incremente a contagem para cada valor de acordo com o índice ajustado pelo menor valor possível no intervalo, que neste caso é zero, pois estamos considerando apenas números positivos menores que 100.
+
+4. **Posições Cumulativas:** Transforme o vetor de contagem em um vetor de posições cumulativas. Isso prepara o vetor de contagem para ser usado diretamente para ordenar o array.
+
+5. **Ordenação:** Para cada elemento em **v**, coloque-o na posição correta no vetor **sorted** e depois de decrementar a contagem correspondente.
+
+6. **Cópia de Volta:** Após ordenar, copie os elementos do vetor **sorted** de volta para **v**.
+
+Lembre-se de liberar qualquer memória que você tenha alocado com **malloc** ou **calloc** para evitar vazamentos de memória.
+:::
+
 
 ::: Gabarito
-
 ```c
-void counting_sort(int *array, int size, int max) {
-    int count[max + 1], i;
-    for (i = 0; i <= max; ++i) count[i] = 0;
-    int sorted[size];
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 
-    for (i = 0; i < size; ++i) count[array[i]]++;
-
-    for (i = 1; i <= max; ++i) count[i] += count[i - 1];
-
-    for (i = size - 1; i >= 0; --i) {
-        sorted[count[array[i]] - 1] = array[i];
-        count[array[i]]--;
+void counting_sort(int v[], int n) {
+    // Encontre o maior valor no array para definir o tamanho do vetor de contagem
+    int max = v[0];
+    for (int i = 1; i < n; i++) {
+        if (v[i] > max) {
+            max = v[i];
+        }
     }
 
-    for (i = 0; i < size; ++i) array[i] = sorted[i];
-}
-
-int main() {
-    int array[] = {10, 23, 42, 11, 34, 58, 94, 33, 30, 25, 17, 63};
-    int size = sizeof(array) / sizeof(array[0]);
-    int max_value = INT_MIN;
-    for (int i = 0; i < size; i++) {
-        if (array[i] > max_value) max_value = array[i];
+    // Crie o vetor de contagem e inicialize-o
+    int *count = calloc(max + 1, sizeof(int)); // Use calloc para inicializar com zero
+    int *sorted = malloc(n * sizeof(int)); // Vetor para os elementos ordenados
+    for (int i = 0; i < n; i++) {
+        count[v[i]]++;
     }
-    counting_sort(array, size, max_value);
 
-    for (int i = 0; i < size; i++) printf("%d ", array[i]);
-    printf("\n");
+    // Transforme o vetor de contagem em um vetor de posições cumulativas
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
 
-    return 0;
+    // Ordene o array
+    for (int i = n - 1; i >= 0; i--) {
+        sorted[count[v[i]] - 1] = v[i];
+        count[v[i]]--;
+    }
+
+    // Copie os valores ordenados de volta para o array original
+    for (int i = 0; i < n; i++) {
+        v[i] = sorted[i];
+    }
+
+    // Libere a memória alocada
+    free(count);
+    free(sorted);
 }
 ```
 ???
 
-??? Desafio - Ordenação de Estruturas Complexas
-Adapte o Counting Sort para ordenar um array de estruturas contendo um identificador inteiro e um nome.
+??? Desafio 2 - Ordenação de Estruturas Complexas
+Adapte o algoritmo de Counting Sort para ordenar um array de estruturas ***Student***, cada uma contendo um identificador inteiro **id** e um campo **name**. Utilize as constantes **MAX_NAME_LENGTH** para o tamanho máximo do nome e **MAX_ID_VALUE** para o valor máximo do identificador **id** que você espera manipular.
+
+```c
+// Estrutura para representar um aluno
+typedef struct {
+    int id;
+    char name[MAX_NAME_LENGTH];
+} Student;
+```
+
+::: Dicas
+
+1. **Estrutura *Student***: Revise a definição da estrutura ***Student*** para entender como os dados estão organizados.
+
+2. **Constantes Definidas**: Use as constantes **MAX_NAME_LENGTH** e **MAX_ID_VALUE** para definir o tamanho dos arrays dentro da função **counting_sort**.
+
+3. **Lógica de Contagem**: Lembre-se de que você está contando e ordenando com base nos valores do campo **id** dentro da estrutura ***Student***.
+
+4. **Inicialização do Vetor de Contagem**: Inicialize o vetor de contagem apropriadamente para acomodar todos os possíveis valores de **id** de **0** a **MAX_ID_VALUE** .
+
+5. **Alocação de Memória para Arrays**: Não se esqueça de alocar memória para o array **sorted** que irá conter as estruturas ***Student*** temporariamente ordenadas.
+
+Utilize essas dicas para guiar seu processo de codificação e lembre-se de testar sua função com um conjunto de dados que inclua uma variedade de **ids** e nomes.
+:::
 
 ::: Gabarito
 
