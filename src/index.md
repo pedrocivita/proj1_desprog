@@ -131,6 +131,32 @@ Usos efetivos:
 * Votos em uma eleição com um número limitado de candidatos, perfeitos para a contagem e reagrupamento rápido.
 * Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.
 
+??? Teste
+
+Para o seguinte caso, Counting Sort seria um algorìtimo de ordenação efetivo?
+
+Uma empresa especializada em cinema está promovendo um site em que seus usúarios possam atribuir notas para diversos critérios de filmes que assistiram e comparar entre si tais notas.
+Por se tratar de um site interativo, no qual outros usúarios possam visualizar suas notas em tempo real, é esperado que tal algorítmo seja rapido.
+A empresa está disposta a lidar com memória auxíliar, e o algorítimo precisa ser também estável, uma vez que tal ordenação se dará por diversos critérios de notas.
+Tais notas podem variar de 1 a 5 com intervalos de números inteiros.
+
+::: Gabarito
+Sim, em tal caso o Counting Sort seria o algorítimo de ordenação perfeito, atendendo a todas as demandas do cliente.
+:::
+
+???
+
+??? Teste 2
+
+Para o caso das notas poderem ser atribuídas de 1 a 10, contando com notas quebradas como 7.5 e 3.1 e uma possibilidade de milhares de filmes no catálogo de cada cliente, o Counting Sort seria efetivo?
+
+::: Gabarito
+Se atendo ao critério de que o algorítmo não trabalha com números não inteiros pode-se afirmar que não.
+Todávia, como mencionado anteriormente, o algorítimo não trabalha bem específicamente com intervalos de números contínuos, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algorítimo efetivo.
+:::
+
+???
+
 Estrutura do Counting Sort
 ---------
 * Inicialização de um array para contagem;

@@ -46,7 +46,6 @@ imagens estão. Essa pasta também deve estar em *img*.
 
 Você também pode inserir código, inclusive especificando a linguagem.
 
-:counting
 
 ``` py
 def f():
