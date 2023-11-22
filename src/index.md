@@ -1,54 +1,54 @@
 Counting Sort
 ======
 
-Problema
+O problema das roupas
 ---------
 
-Entrada:
+Imagine a seguinte situação: você é um funcionário de uma loja de roupas e precisa organizar as roupas da loja. Para simplificar, vamos considerar que a loja só vende roupas de tamanho P, M, G e GG e que, para cada um desses tamanhos, existe uma seção específica na loja. Como você faria para organizar as roupas em cada seção?
 
-- **v**, um vetor de inteiros;
-- **n**, o tamanho de **v**.
+::: Solução
 
-Saída:
+Uma solução possível seria criar uma pilha para cada tamanho de roupa e ir colocando as roupas em suas respectivas pilhas. No final, você teria quatro pilhas, cada uma com as roupas de um tamanho específico e só precisaria colocar as pilhas nas seções correspondentes.
 
-- Modifica **v** para que os elementos originais estejam em ordem não-decrescente, permitindo elementos iguais em sequência.
+:::
+
+Vamos um pouco além: imagine que você precisa realizar o controle de estoque da loja e, para isso, precisa saber qual tamanho de roupa é o mais vendido. Como você faria para descobrir isso?
+
+::: Solução
+
+Uma solução possível seria contar quantas roupas de cada tamanho existem na loja e, depois de certo período, verificar qual tamanho de roupa foi o mais vendido. Para isso, você poderia criar uma pilha para cada tamanho de roupa e ir colocando as roupas em suas respectivas pilhas. No final, você teria quatro pilhas, cada uma com as roupas de um tamanho específico e só precisaria contar quantas roupas existem em cada pilha. O tamanho de roupa com mais roupas seria o mais vendido.
+
+:::
+
+O problema das roupas é um exemplo de um problema que pode ser resolvido com o algoritmo de ordenação Counting Sort. Neste handout, vamos aprender como esse algoritmo funciona e como implementá-lo em *Python*.
 
 Ideia
 ---------
 
 O Counting Sort opera contando a frequência de cada valor dentro de um conjunto limitado e usando essa contagem para posicionar cada elemento diretamente em sua posição correta no vetor ordenado. É um algoritmo eficiente para dados com variação limitada de valores, pois sua velocidade não depende de comparações diretas entre elementos.
 
-Características principais
----------
-
-- Complexidade O(n) em todos os casos;
-- É um algoritmo de ordenação estável;
-- Utiliza memória auxiliar;
-- É mais eficiente para ordenar números inteiros.
-
-
 Por que o Counting Sort?
 ------------
 
 O Counting Sort é ideal e apresenta complexidade *O(n)* para situações com baixa variação nos valores de entrada e é particularmente útil quando os dados são números inteiros positivos.
 
-!!!Observação
-É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma (*inteiros*). Se fosse um vetor de valores contínuos(*floats*), por exemplo, a quantidade de multiplicações necessárias para ajustar os valores prejudicariam muito a eficiência do código.
-!!!
-
 Aplicações reais do Counting Sort
 ------------
-Usos não efetivos:
+Usos **não efetivos**:
 
 * Preços em um site, devido à presença de muitos valores decimais e variação extensa.
 * Notas em uma sala de aula, onde as notas podem ter muitos decimais e variar de 0 a 100.
 * Datas de eventos históricos, que tendem a ter uma grande variação e não se beneficiam da ordenação baseada em contagem.
 
-Usos efetivos:
+Usos **efetivos**:
 
 * Idades de um grande grupo de pessoas, com variação geralmente entre 0 e 100.
 * Votos em uma eleição com um número limitado de candidatos, perfeitos para a contagem e reagrupamento rápido.
 * Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.
+
+!!!Observação
+É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma (*inteiros*). Se fosse um vetor de valores contínuos(*floats*), por exemplo, a quantidade de multiplicações necessárias para ajustar os valores prejudicariam muito a eficiência do código.
+!!!
 
 Exercícios de Fixação
 ------------
@@ -88,32 +88,41 @@ Como podemos implementar essa ideia?
 Implementação em C
 ---------
 
-A função **counting_sort** abaixo ordena um vetor de números inteiros que se enquadram em um intervalo conhecido, no caso de 0 a 9. Um vetor de contagem acumula a frequência de cada valor, e um vetor temporário organiza os elementos antes de serem recolocados no vetor original.
+A função **counting_sort** abaixo ordena um vetor de números inteiros que se enquadram em um intervalo qualquer. Um vetor de contagem acumula a frequência de cada valor, e um vetor temporário organiza os elementos antes de serem recolocados no vetor original.
 
-O código a seguir ilustra a implementação da ordenação de objetos complexos usando Counting Sort em C:
+O código a seguir ilustra a implementação da ordenação de objetos complexos usando Counting Sort em python:
 
-```c
-void counting_sort(int v[], int n) {
-    int count[10] = {0}; // Intervalo de 0 a 9
-    int sorted[n], i;
+```python
+def counting_sort(v):
+    # Determinar o tamanho do intervalo com base no maior número no vetor
+    range_size = max(v) + 1
+    count = [0] * range_size
+    sorted_v = [0] * len(v)
 
-    // Contar as ocorrências
-    for(i = 0; i < n; i++) count[v[i]]++;
+    # Contar as ocorrências
+    for num in v:
+        count[num] += 1
 
-    // Transformar count em posições cumulativas
-    for(i = 1; i < 10; i++) count[i] += count[i - 1];
+    # Transformar count em posições cumulativas
+    for i in range(1, range_size):
+        count[i] += count[i - 1]
 
-    // Ordenar o vetor
-    for(i = n - 1; i >= 0; i--) {
-        sorted[--count[v[i]]] = v[i];
-    }
+    # Ordenar o vetor
+    for num in reversed(v):
+        sorted_v[count[num] - 1] = num
+        count[num] -= 1
 
-    // Copiar para o vetor original
-    for(i = 0; i < n; i++) v[i] = sorted[i];
-}
+    return sorted_v
 
 ```
+
 Para melhor entender essa implementação vamos ao passo a passo, ou melhor, loop a loop!
+
+!!! Observação 
+
+Para o exemplo a seguir consideraremos o seguinte vetor: **v = [4, 1, 3, 4, 3]**.
+
+!!!
 
 * **Loop 1: Contar as ocorrências**
 
@@ -123,7 +132,7 @@ Para melhor entender essa implementação vamos ao passo a passo, ou melhor, loo
 
 :loop2
 
-* **Loop 3: Ordenar o array**
+* **Loop 3: Ordenar o vetor**
 
 :loop3
 
