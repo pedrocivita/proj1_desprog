@@ -15,108 +15,104 @@ A estratégia demonstrada pode ser pensada como algo intuitivo em ordenações c
 
 Vamos visualizar nossas roupas como o vetor apresentado a seguir:
 
+<div align=center>
+
 [ G , P , M , GG , P , G , GG , P , G , M , M]
 
+</div>
+
+??? Exercício 1
 Primeiramente, conte o número de ocorrências de cada um dos tamanhos apresentado no vetor.
 
 ::: Solução
-P - 3
 
-M - 3
+<div align=center>
 
-G - 3
+P = 3
 
-GG - 2
+M = 3
+
+G = 3
+
+GG = 2
+
+</div>
 :::
+???
 
+??? Exercício 2
 Em sequência, embora pareça um pouco óbvio, organize os tamanhos apresentados em um novo vetor, baseado em sua ordem de grandeza.
-::: Solução
-[P , M , G , GG]
-:::
 
+::: Solução
+<div align=center>
+
+[ P , M , G , GG ]
+
+</div>
+:::
+???
+
+??? Exercício 3
 Nesse novo vetor, substitua os valores de ocorrência encontrados pelos respectivos valores de tamanho representados.
 ::: Solução
-<div>
-P  M  G  GG
+<div align=center>
 
-[3 , 3 , 3 , 2]
+P, M, G, GG
+
+[ 3 , 3 , 3 , 2 ]
+
 </div>
 :::
+???
 
 Ótimo, agora possuímos um novo vetor representando o número de ocorrências de cada tamanho já ordenado por sua ordem de grandeza.
-A partir de tal vetor podemos enfim realizar a ordenação do vetor em um passe de mágica, seguindo a seguinte regra.
-Primeiramente iremos somar o primeiro valor do vetor no segundo valor, em sequência o segundo valor no terceiro valor e assim por diante, até completarmos o vetor.
+
+??? Exercício 4
+Agora, iremos somar o primeiro valor do vetor no segundo valor, em sequência o segundo valor no terceiro valor e assim sucessivamente, até completarmos o vetor.
 
 ::: Solução
-<div>
- P   M  G   GG
+<div align=center>
 
-[3, 6, 9 , 10]
+P, M, G, GG
+
+[ 3 , 6 , 9 , 11 ]
+
 </div>
 :::
+???
 
 Atráves desse novo vetor iremos realizar o passo final de nossa ordenação.
 Imagine um novo vetor de tamanho igual ao vetor original no qual serão salvos os valores de maneira ordenada.
-Iremos portanto, passar valor por valor de nosso vetor original e identificar esse valor em nosso vetor de ocorrências somado, portanto iremos adicionar valor ao nosso novo vetor gerado utilizando como index do mesmo o valor adquirido do nosso vetor de ocorrências somado.
+Iremos portanto, passar valor por valor de nosso vetor original e identificar esse valor em nosso vetor de ocorrências somadas, portanto iremos adicionar valor ao nosso novo vetor gerado utilizando como index do mesmo o valor adquirido do nosso vetor de ocorrências somadas.
 Por fim devemos subtrair um do index em questão de nosso vetor de ocorrências somado.
 Ficou confuso? Observe o exemplo a seguir representando a primeira interação desse passo no vetor observado.
 
-- Vetor original
+## **Primeira iteração do Algoritmo:**
 
-[ **G** , P , M , GG , P , G , GG , P , G , M , M]
+:ord_roupas_loop1
 
-- Novo Vetor
-
-[  ,  ,  ,  ,  ,  ,  ,  ,  ,  , ]
-
-- Vetor de ocorrências
-
-[3, 6 , **9** , 10]
-
-Valor do index G = 9
-
-- Novo Vetor
-
-[ , , , , , , , , G , , ]
-
-- Vetor de ocorrências
-
-[3, 6, 8 , 10]
-
-O exemplo acima representa uma iteração do passo final da ordenação de nosso vetor, de modo que ao passar por todos os valores do vetor original o nosso Novo Vetor estaria completamente ordenado.
+O exemplo acima representa a primeira iteração por completo do algoritmo, de modo que se as iterações fossem realizadas até o fim o vetor estaria completamente ordenado.
 
 !!!Observação
-Os indíces utilizados no Novo Vetor começam no 1 pela maneira que o algorítimo é aplicado. Caso prefira pode subtrair 1 de todos os valores do vetor de ocorrências e utilizar um indíce iniciando em 0, tal qual usualmente utilizado em vetores.
+Os indíces utilizados no Novo Vetor começam no 1 pela maneira que o algoritmo é aplicado. Caso prefira pode subtrair 1 de todos os valores do vetor de ocorrências e utilizar um indíce iniciando em 0, tal qual usualmente utilizado em vetores.
 !!!
 
-??? Teste
-Realize a segunda iteração do algorítimo, seguindo o padrão representado no exemplo.
+??? Exercício 5
+Realize a segunda iteração do algoritmo, seguindo o padrão representado no exemplo.
 
 ::: Gabarito
 
-- Vetor original
+## **Segunda iteração do Algoritmo:**
 
-[ G , **P** , M , GG , P , G , GG , P , G , M , M]
+:ord_roupas_loop2
 
-- Novo Vetor
-
-[ , , , , , , , , G , , ]
-
--Vetor de ocorrências
-
-[**3**, 6, 8 , 10]
-
-Valor do index P = 3
-
--Novo Vetor
-
-[ , , P , , , , , , G , , ]
-
--Vetor de ocorrências
-
-[2, 6, 8 , 10]
 :::
 ???
+
+
+## **Todas as iterações do Algoritmo:**
+
+:ord_roupas
 
 Por que o Counting Sort?
 ------------
@@ -144,39 +140,31 @@ Usos **efetivos**:
 Exercícios de Fixação
 ------------
 Uma empresa especializada em cinema está promovendo um site em que seus usúarios possam atribuir notas para diversos critérios de filmes que assistiram e comparar entre si tais notas.
-Por se tratar de um site interativo, no qual outros usúarios possam visualizar suas notas em tempo real, é esperado que tal algorítmo seja rapido.
-A empresa está disposta a lidar com memória auxíliar, e o algorítimo precisa ser também estável, uma vez que tal ordenação se dará por diversos critérios de notas.
+Por se tratar de um site interativo, no qual outros usúarios possam visualizar suas notas em tempo real, é esperado que tal algoritmo seja rapido.
+A empresa está disposta a lidar com memória auxíliar, e o algoritmo precisa ser também estável, uma vez que tal ordenação se dará por diversos critérios de notas.
 Tais notas podem variar de 1 a 5 com intervalos de números inteiros.
-??? Exercício 1
+??? Exercício de Fixação 1
 
 Para o caso acima, você acredita que o Counting Sort seria um algoritmo de ordenação efetivo?
 
 ::: Gabarito
-Sim, em tal caso o Counting Sort seria o algorítimo de ordenação perfeito, atendendo a todas as demandas do cliente.
+Sim, em tal caso o Counting Sort seria o algoritmo de ordenação perfeito, atendendo a todas as demandas do cliente.
 :::
 
 ???
 
-??? Exercício 2
+??? Exercício de Fixação 2
 
 Para o caso das notas poderem ser atribuídas de 1 a 10, contando com notas quebradas como 7.5 e 3.1 e uma possibilidade de milhares de filmes no catálogo de cada cliente, o Counting Sort seria efetivo?
 
 ::: Gabarito
-Se atendo ao critério de que o algorítmo não trabalha com números não inteiros pode-se afirmar que não.
-Todávia, como mencionado anteriormente, o algorítimo não trabalha bem específicamente com intervalos de números contínuos, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algorítimo efetivo.
+Levando em consideração o critério de que o algoritmo não trabalha com números não inteiros pode-se afirmar que não.
+Todávia, como mencionado anteriormente, o algoritmo não trabalha bem específicamente com intervalos de números contínuos, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algoritmo efetivo.
 :::
 
 ???
 
-Ordenação de Objetos Complexos com Counting Sort
----------
-O algoritmo também pode ser adaptado para organizar estruturas de dados complexas, como registros de alunos. A seguir, mostramos como utilizar o Counting Sort para ordenar um array de objetos alunos.
-
-Agora, considere um array de objetos alunos que precisam ser ordenados por número de matrícula!
-
-Como podemos implementar essa ideia?
-
-Implementação em C
+Implementação em Python
 ---------
 
 A função **counting_sort** abaixo ordena um vetor de números inteiros que se enquadram em um intervalo qualquer. Um vetor de contagem acumula a frequência de cada valor, e um vetor temporário organiza os elementos antes de serem recolocados no vetor original.
@@ -204,7 +192,6 @@ def counting_sort(v):
         count[num] -= 1
 
     return sorted_v
-
 ```
 
 Para melhor entender essa implementação vamos ao passo a passo, ou melhor, loop a loop!
@@ -215,21 +202,73 @@ Para o exemplo a seguir consideraremos o seguinte vetor: **v = [4, 1, 3, 4, 3]**
 
 !!!
 
-* **Loop 1: Contar as ocorrências**
-
-:loop1
-
-* **Loop 2: Transformar count em posições cumulativas**
+* ## **Loop 1: Contar as ocorrências**
 
 :loop2
 
-* **Loop 3: Ordenar o vetor**
+* ##  **Loop 2: Transformar count em posições cumulativas**
 
 :loop3
 
-* **Loop 4: Copiar para o array original**
+* ##  **Loop 3: Ordenar o vetor**
 
 :loop4
+
+Complexidade do Algoritmo
+------------
+Anterioremente foi mencionado que o Counting Sort apresenta complexidade *O( n + k )*, mas como se dá tal relação com o algoritmo aplicado?
+Para isso iremos analisar o a seguinte implementação do código e entender melhor sua complexidade.
+
+```python
+def counting_sort(v):
+    # Determinar o tamanho do intervalo com base no maior número no vetor
+    range_size = max(v) + 1
+    count = [0] * range_size
+    sorted_v = [0] * len(v)
+
+    # Contar as ocorrências
+    for num in v:
+        count[num] += 1
+
+    # Transformar count em posições cumulativas
+    for i in range(1, range_size):
+        count[i] += count[i - 1]
+
+    # Ordenar o vetor
+    for num in reversed(v):
+        sorted_v[count[num] - 1] = num
+        count[num] -= 1
+
+    return sorted_v
+```
+
+Já nas primeiras linhas observamos a complexidade *O( n )*, uma vez que o algoritmo utiliza da função *max( )*, que percorre todo o vetor para encontrar o maior valor. Em sequência observamos duas linhas de complexidade *O( 1 )*, de complexidade constante.
+
+```python 
+    range_size = max(v) + 1 #0(n)
+    count = [0] * range_size #0(1)
+    sorted_v = [0] * len(v) #0(1)
+```
+No loop seguinte observamos um loop simples, que percorre todo o vetor, portanto de complexidade *O( n )*.
+
+```python 
+    for num in v: #0(n)
+        count[num] += 1 #0(1)
+```
+Em sequência temos um loop responsávvel pela complexidade dita como *O( n + k )*, uma vez que o mesmo percorre a varíavel **range_size**, que é fruto da operação *max( v )*, fazendo com que o algoritmo dependa não somente do número da entrada, mas também da difereça entre os valores de entrada, ou em versões mais sofisticadas do algoritmo, da variedade de valores de entrada.
+
+```python 
+    for i in range(1, range_size): #0(k)
+        count[i] += count[i - 1] #0(1)
+```
+
+Por fim possuímos mais um loop simples, totalizando ao nosso código três iterações de complexidade *O( n )* e uma iteração de complexidade *O( k )*, resultando na complexidade *O( n + k )*.
+
+```python 
+    for num in reversed(v): #0(n)
+        sorted_v[count[num] - 1] = num #0(1)
+        count[num] -= 1 #0(1)
+```
 
 Desafios
 ---------
