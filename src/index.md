@@ -121,10 +121,8 @@ Valor do index P = 3
 Por que o Counting Sort?
 ------------
 
-O Counting Sort é ideal e apresenta complexidade *O(n)* para situações com baixa variação nos valores de entrada e é particularmente útil quando os dados são números inteiros positivos.
+O Counting Sort é ideal para situações com baixa variação nos valores de entrada, uma vez que em casos de menor variação de entrada que o tamanho da entrada a complexidade do código se dá por O(n), além de ser particularmente útil quando os dados são números inteiros positivos, por não precisar de filtros prévios.
 
-Aplicações reais do Counting Sort
-------------
 Usos **não efetivos**:
 
 * Preços em um site, devido à presença de muitos valores decimais e variação extensa.
@@ -138,7 +136,7 @@ Usos **efetivos**:
 * Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.
 
 !!!Observação
-É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma (*inteiros*). Se fosse um vetor de valores contínuos(*floats*), por exemplo, a quantidade de multiplicações necessárias para ajustar os valores prejudicariam muito a eficiência do código.
+É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma, e mais complexo com valores contínuos que dependem de multiplicação.
 !!!
 
 Exercícios de Fixação
