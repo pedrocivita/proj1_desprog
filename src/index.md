@@ -176,7 +176,7 @@ Agora, considere um array de objetos alunos que precisam ser ordenados por núme
 
 Como podemos implementar essa ideia?
 
-Implementação em C
+Implementação em Python
 ---------
 
 A função **counting_sort** abaixo ordena um vetor de números inteiros que se enquadram em um intervalo qualquer. Um vetor de contagem acumula a frequência de cada valor, e um vetor temporário organiza os elementos antes de serem recolocados no vetor original.
@@ -230,6 +230,63 @@ Para o exemplo a seguir consideraremos o seguinte vetor: **v = [4, 1, 3, 4, 3]**
 * **Loop 4: Copiar para o array original**
 
 :loop4
+
+Complexidade do Algorítimo
+------------
+Anterioremente foi mencionado que o Counting Sort apresenta complexidade *O(n+k)*, mas como se dá tal relação com o algorítimo aplicado?
+Para isso iremos analisar o a seguinte implementação do código e entender melhor sua complexidade.
+
+```python
+def counting_sort(v):
+    # Determinar o tamanho do intervalo com base no maior número no vetor
+    range_size = max(v) + 1
+    count = [0] * range_size
+    sorted_v = [0] * len(v)
+
+    # Contar as ocorrências
+    for num in v:
+        count[num] += 1
+
+    # Transformar count em posições cumulativas
+    for i in range(1, range_size):
+        count[i] += count[i - 1]
+
+    # Ordenar o vetor
+    for num in reversed(v):
+        sorted_v[count[num] - 1] = num
+        count[num] -= 1
+
+    return sorted_v
+
+```
+
+Já nas primeiras linhas observamos a complexidade *O(n)*, uma vez que o algorítimo utiliza da função (max), que percorre todo o vetor para encontrar o maior valor. Em sequência observamos duas linhas de complexidade *O(1)*, de complexidade constante.
+
+```python 
+    range_size = max(v) + 1 #0(n)
+    count = [0] * range_size #0(1)
+    sorted_v = [0] * len(v) #0(1)
+```
+No loop seguinte observamos um loop simples, que percorre todo o vetor, portanto de complexidade *O(n)*.
+
+```python 
+    for num in v: #0(n)
+        count[num] += 1 #0(1)
+```
+Em sequência temos um loop responsávvel pela complexidade dita como O(n+k), uma vez que o mesmo percorre a varíavel **range_size**, que é fruto da operação max(v), fazendo com que o algorítimo dependa não somente do número da entrada, mas também da difereça entre os valores de entrada, ou em versões mais sofisticadas do algorítimo, da variedade de valores de entrada.
+
+```python 
+    for i in range(1, range_size): #0(k)
+        count[i] += count[i - 1] #0(1)
+```
+
+Por fim possuímos mais um loop simples, totalizando ao nosso código três iterações de complexidade *O(n)* e uma iteração de complexidade *O(k)*, resultando na complexidade *O(n+k)*.
+
+```python 
+    for num in reversed(v): #0(n)
+        sorted_v[count[num] - 1] = num #0(1)
+        count[num] -= 1 #0(1)
+```
 
 Desafios
 ---------
