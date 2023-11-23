@@ -4,28 +4,119 @@ Counting Sort
 O problema das roupas
 ---------
 
-Imagine a seguinte situação: você é um funcionário de uma loja de roupas e precisa organizar as roupas da loja. Para simplificar, vamos considerar que a loja só vende roupas de tamanho P, M, G e GG e que, para cada um desses tamanhos, existe uma seção específica na loja. Como você faria para organizar as roupas em cada seção?
+Imagine a seguinte situação: Você acaba de ser contratado por uma loja de roupas e sua primeira tarefa será organizar o novo lote de roupas que acaba de chegar por tamanho (para simplificar considere 4 tamanhos : P, M, G e GG).
+A princípio tal ideia seria muito simples de ser realizada, embora possivelmente trabalhosa. Bastaria conferir o tamanho de todas as roupas e adiciona-las a pilhas referentes a seus respectivos tamanhos, de modo que haveriam ao final 4 pilhas considerando os tamanhos P, M, G e GG.
+Após montar tais pilhas seu trabalho teria sido realizado, e caso fosse pedido para que montasse uma grande pilha ordenando as roupas por sua ordem de tamanho também seria muito simples, bastaria montar uma nova pilha adicionando as anteriores pilhas montadas ordenando pela ordem de tamanho.
 
-::: Solução
-
-Uma solução possível seria criar uma pilha para cada tamanho de roupa e ir colocando as roupas em suas respectivas pilhas. No final, você teria quatro pilhas, cada uma com as roupas de um tamanho específico e só precisaria colocar as pilhas nas seções correspondentes.
-
-:::
-
-Vamos um pouco além: imagine que você precisa realizar o controle de estoque da loja e, para isso, precisa saber qual tamanho de roupa é o mais vendido. Como você faria para descobrir isso?
-
-::: Solução
-
-Uma solução possível seria contar quantas roupas de cada tamanho existem na loja e, depois de certo período, verificar qual tamanho de roupa foi o mais vendido. Para isso, você poderia criar uma pilha para cada tamanho de roupa e ir colocando as roupas em suas respectivas pilhas. No final, você teria quatro pilhas, cada uma com as roupas de um tamanho específico e só precisaria contar quantas roupas existem em cada pilha. O tamanho de roupa com mais roupas seria o mais vendido.
-
-:::
-
-O problema das roupas é um exemplo de um problema que pode ser resolvido com o algoritmo de ordenação Counting Sort. Neste handout, vamos aprender como esse algoritmo funciona e como implementá-lo em *Python*.
-
-Ideia
+Roupas e Números
 ---------
 
-O Counting Sort opera contando a frequência de cada valor dentro de um conjunto limitado e usando essa contagem para posicionar cada elemento diretamente em sua posição correta no vetor ordenado. É um algoritmo eficiente para dados com variação limitada de valores, pois sua velocidade não depende de comparações diretas entre elementos.
+A estratégia demonstrada pode ser pensada como algo intuitivo em ordenações como a situação apresentada, onde existem poucas classificações de ordenação e possivelmente muitos valores a serem ordenados, portanto vamos generalizar um pouco nosso problema, demonstando uma maneira de realizar tal ordenação de modo um pouco menos intuitivo mas extremamente eficiente, seguindo o mesmo princípio.
+
+Vamos visualizar nossas roupas como o vetor apresentado a seguir:
+
+[ G , P , M , GG , P , G , GG , P , G , M , M]
+
+Primeiramente, conte o número de ocorrências de cada um dos tamanhos apresentado no vetor.
+
+::: Solução
+P - 3
+
+M - 3
+
+G - 3
+
+GG - 2
+:::
+
+Em sequência, embora pareça um pouco óbvio, organize os tamanhos apresentados em um novo vetor, baseado em sua ordem de grandeza.
+::: Solução
+[P , M , G , GG]
+:::
+
+Nesse novo vetor, substitua os valores de ocorrência encontrados pelos respectivos valores de tamanho representados.
+::: Solução
+<div>
+P  M  G  GG
+
+[3 , 3 , 3 , 2]
+</div>
+:::
+
+Ótimo, agora possuímos um novo vetor representando o número de ocorrências de cada tamanho já ordenado por sua ordem de grandeza.
+A partir de tal vetor podemos enfim realizar a ordenação do vetor em um passe de mágica, seguindo a seguinte regra.
+Primeiramente iremos somar o primeiro valor do vetor no segundo valor, em sequência o segundo valor no terceiro valor e assim por diante, até completarmos o vetor.
+
+::: Solução
+<div>
+ P   M  G   GG
+
+[3, 6, 9 , 10]
+</div>
+:::
+
+Atráves desse novo vetor iremos realizar o passo final de nossa ordenação.
+Imagine um novo vetor de tamanho igual ao vetor original no qual serão salvos os valores de maneira ordenada.
+Iremos portanto, passar valor por valor de nosso vetor original e identificar esse valor em nosso vetor de ocorrências somado, portanto iremos adicionar valor ao nosso novo vetor gerado utilizando como index do mesmo o valor adquirido do nosso vetor de ocorrências somado.
+Por fim devemos subtrair um do index em questão de nosso vetor de ocorrências somado.
+Ficou confuso? Observe o exemplo a seguir representando a primeira interação desse passo no vetor observado.
+
+- Vetor original
+
+[ **G** , P , M , GG , P , G , GG , P , G , M , M]
+
+- Novo Vetor
+
+[  ,  ,  ,  ,  ,  ,  ,  ,  ,  , ]
+
+- Vetor de ocorrências
+
+[3, 6 , **9** , 10]
+
+Valor do index G = 9
+
+- Novo Vetor
+
+[ , , , , , , , , G , , ]
+
+- Vetor de ocorrências
+
+[3, 6, 8 , 10]
+
+O exemplo acima representa uma iteração do passo final da ordenação de nosso vetor, de modo que ao passar por todos os valores do vetor original o nosso Novo Vetor estaria completamente ordenado.
+
+!!!Observação
+Os indíces utilizados no Novo Vetor começam no 1 pela maneira que o algorítimo é aplicado. Caso prefira pode subtrair 1 de todos os valores do vetor de ocorrências e utilizar um indíce iniciando em 0, tal qual usualmente utilizado em vetores.
+!!!
+
+??? Teste
+Realize a segunda iteração do algorítimo, seguindo o padrão representado no exemplo.
+
+::: Gabarito
+
+- Vetor original
+
+[ G , **P** , M , GG , P , G , GG , P , G , M , M]
+
+- Novo Vetor
+
+[ , , , , , , , , G , , ]
+
+-Vetor de ocorrências
+
+[**3**, 6, 8 , 10]
+
+Valor do index P = 3
+
+-Novo Vetor
+
+[ , , P , , , , , , G , , ]
+
+-Vetor de ocorrências
+
+[2, 6, 8 , 10]
+:::
+???
 
 Por que o Counting Sort?
 ------------
