@@ -194,11 +194,13 @@ def counting_sort(v):
     return sorted_v
 ```
 
-Para melhor entender essa implementação vamos ao passo a passo, ou melhor, loop a loop!
+Para melhor entender essa implementação faremos um passo a passo, ou melhor, loop a loop!
 
 !!! Observação 
 
-Para o exemplo a seguir consideraremos o seguinte vetor: **v = [4, 1, 3, 4, 3]**.
+É importante notar que a demonstração a seguir se assemelha muito com o loop de ordenação de roupas apresentado anteriormente, mas agora com um vetor de tamanho 5, de modo que o vetor de ocorrências somadas terá tamanho 5; para o exemplo a seguir consideraremos o seguinte vetor: **A = [4, 1, 3, 4, 3]**. 
+
+Além disso, visando um melhor entendimento do esquema abaixo, o vetor original será representado por **A**, o vetor a ser ordenado por **B**, o vetor de ocorrências por **C** e o vetor de ocorrências somadas por **C_linha**.
 
 !!!
 
@@ -245,187 +247,67 @@ def counting_sort(v):
 Já nas primeiras linhas observamos a complexidade *O( n )*, uma vez que o algoritmo utiliza da função *max( )*, que percorre todo o vetor para encontrar o maior valor. Em sequência observamos duas linhas de complexidade *O( 1 )*, de complexidade constante.
 
 ```python 
-    range_size = max(v) + 1 #0(n)
-    count = [0] * range_size #0(1)
-    sorted_v = [0] * len(v) #0(1)
+    range_size = max(v) + 1            #O(n)
+    count = [0] * range_size           #O(1)
+    sorted_v = [0] * len(v)            #O(1)
 ```
 No loop seguinte observamos um loop simples, que percorre todo o vetor, portanto de complexidade *O( n )*.
 
 ```python 
-    for num in v: #0(n)
-        count[num] += 1 #0(1)
+    for num in v:                      #O(n)
+        count[num] += 1                #O(1)
 ```
 Em sequência temos um loop responsávvel pela complexidade dita como *O( n + k )*, uma vez que o mesmo percorre a varíavel **range_size**, que é fruto da operação *max( v )*, fazendo com que o algoritmo dependa não somente do número da entrada, mas também da difereça entre os valores de entrada, ou em versões mais sofisticadas do algoritmo, da variedade de valores de entrada.
 
 ```python 
-    for i in range(1, range_size): #0(k)
-        count[i] += count[i - 1] #0(1)
+    for i in range(1, range_size):     #O(k)
+        count[i] += count[i - 1]       #O(1)
 ```
 
 Por fim possuímos mais um loop simples, totalizando ao nosso código três iterações de complexidade *O( n )* e uma iteração de complexidade *O( k )*, resultando na complexidade *O( n + k )*.
 
 ```python 
-    for num in reversed(v): #0(n)
-        sorted_v[count[num] - 1] = num #0(1)
-        count[num] -= 1 #0(1)
+    for num in reversed(v):            #O(n)
+        sorted_v[count[num] - 1] = num #O(1)
+        count[num] -= 1                #O(1)
 ```
 
-Desafios
+Desafio
 ---------
 
-??? Desafio 1 - Ordenação de Números com um Intervalo Maior
-Adapte a função **counting_sort** para que ela possa ordenar um array de números inteiros onde o maior número é conhecido e é menor que 100. Você precisará alterar a função para que ela determine o intervalo de valores dentro do array e crie um vetor de contagem adequado.
+??? Ordenação de Estruturas Complexas
+Adapte o algoritmo de Counting Sort para ordenar um array de classes ***Student***, cada uma contendo um identificador inteiro **id** e um campo **name**. O algoritmo deve ordenar os estudantes por **id**.
 
-::: Dicas
-
-1. **Encontrar o Valor Máximo:** Primeiro, percorra todo o array para encontrar o maior valor. Este será o seu ponto de referência para o tamanho do vetor de contagem.
-
-2. **Inicializar o Vetor de Contagem:** Utilize a função **calloc** para criar e inicializar o vetor de contagem. Lembre-se de que **calloc** inicializa todos os valores do vetor alocado com zero.
-
-3. **Contagem:** Incremente a contagem para cada valor de acordo com o índice ajustado pelo menor valor possível no intervalo, que neste caso é zero, pois estamos considerando apenas números positivos menores que 100.
-
-4. **Posições Cumulativas:** Transforme o vetor de contagem em um vetor de posições cumulativas. Isso prepara o vetor de contagem para ser usado diretamente para ordenar o array.
-
-5. **Ordenação:** Para cada elemento em **v**, coloque-o na posição correta no vetor **sorted** e depois de decrementar a contagem correspondente.
-
-6. **Cópia de Volta:** Após ordenar, copie os elementos do vetor **sorted** de volta para **v**.
-
-Lembre-se de liberar qualquer memória que você tenha alocado com **malloc** ou **calloc** para evitar vazamentos de memória.
-:::
-
-
-::: Gabarito
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-
-void counting_sort(int v[], int n) {
-    // Encontre o maior valor no array para definir o tamanho do vetor de contagem
-    int max = v[0];
-    for (int i = 1; i < n; i++) {
-        if (v[i] > max) {
-            max = v[i];
-        }
-    }
-
-    // Crie o vetor de contagem e inicialize-o
-    int *count = calloc(max + 1, sizeof(int)); // Use calloc para inicializar com zero
-    int *sorted = malloc(n * sizeof(int)); // Vetor para os elementos ordenados
-    for (int i = 0; i < n; i++) {
-        count[v[i]]++;
-    }
-
-    // Transforme o vetor de contagem em um vetor de posições cumulativas
-    for (int i = 1; i <= max; i++) {
-        count[i] += count[i - 1];
-    }
-
-    // Ordene o array
-    for (int i = n - 1; i >= 0; i--) {
-        sorted[count[v[i]] - 1] = v[i];
-        count[v[i]]--;
-    }
-
-    // Copie os valores ordenados de volta para o array original
-    for (int i = 0; i < n; i++) {
-        v[i] = sorted[i];
-    }
-
-    // Libere a memória alocada
-    free(count);
-    free(sorted);
-}
+```python
+class Student:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 ```
-???
-
-??? Desafio 2 - Ordenação de Estruturas Complexas
-Adapte o algoritmo de Counting Sort para ordenar um array de estruturas ***Student***, cada uma contendo um identificador inteiro **id** e um campo **name**. Utilize as constantes **MAX_NAME_LENGTH** para o tamanho máximo do nome e **MAX_ID_VALUE** para o valor máximo do identificador **id** que você espera manipular.
-
-```c
-// Estrutura para representar um aluno
-typedef struct {
-    int id;
-    char name[MAX_NAME_LENGTH];
-} Student;
-```
-
-::: Dicas
-
-1. **Estrutura *Student***: Revise a definição da estrutura ***Student*** para entender como os dados estão organizados.
-
-2. **Constantes Definidas**: Use as constantes **MAX_NAME_LENGTH** e **MAX_ID_VALUE** para definir o tamanho dos arrays dentro da função **counting_sort**.
-
-3. **Lógica de Contagem**: Lembre-se de que você está contando e ordenando com base nos valores do campo **id** dentro da estrutura ***Student***.
-
-4. **Inicialização do Vetor de Contagem**: Inicialize o vetor de contagem apropriadamente para acomodar todos os possíveis valores de **id** de **0** a **MAX_ID_VALUE** .
-
-5. **Alocação de Memória para Arrays**: Não se esqueça de alocar memória para o array **sorted** que irá conter as estruturas ***Student*** temporariamente ordenadas.
-
-Utilize essas dicas para guiar seu processo de codificação e lembre-se de testar sua função com um conjunto de dados que inclua uma variedade de **ids** e nomes.
-:::
 
 ::: Gabarito
 
-```c
-#define MAX_NAME_LENGTH 256
-#define MAX_ID_VALUE 100 // Ajuste esse valor para o maior ID que você espera
+```python
+class Student:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 
-// Estrutura para representar um aluno
-typedef struct {
-    int id;
-    char name[MAX_NAME_LENGTH];
-} Student;
+def counting_sort_students(students):
+    max_id = max(student.id for student in students)
+    count = [0] * (max_id + 1)
+    sorted_students = [None] * len(students)
 
-void counting_sort_students(Student *students, int size) {
-    // Array para contagem e array auxiliar para alunos ordenados
-    int count[MAX_ID_VALUE + 1] = {0};
-    Student *sorted = (Student *)malloc(size * sizeof(Student));
+    for student in students:
+        count[student.id] += 1
 
-    // Contar as ocorrências de cada ID
-    for (int i = 0; i < size; i++) {
-        count[students[i].id]++;
-    }
+    for i in range(1, max_id + 1):
+        count[i] += count[i - 1]
 
-    // Transformar count em posições cumulativas
-    for (int i = 1; i <= MAX_ID_VALUE; i++) {
-        count[i] += count[i - 1];
-    }
+    for student in reversed(students):
+        sorted_students[count[student.id] - 1] = student
+        count[student.id] -= 1
 
-    // Ordenar os alunos usando o array de contagem
-    for (int i = size - 1; i >= 0; i--) {
-        sorted[count[students[i].id] - 1] = students[i];
-        count[students[i].id]--;
-    }
-
-    // Copiar os alunos ordenados de volta para o array original
-    for (int i = 0; i < size; i++) {
-        students[i] = sorted[i];
-    }
-
-    // Liberar memória do array auxiliar
-    free(sorted);
-}
-
-int main() {
-    // Exemplo de uso da função counting_sort_students
-    Student students[] = {
-        {10, "Alice"},
-        {2, "Bob"},
-        {4, "Charlie"},
-        {1, "Dave"},
-        {3, "Eve"},
-        {5, "Frank"}
-    };
-    int size = sizeof(students) / sizeof(students[0]);
-
-    counting_sort_students(students, size);
-
-    for (int i = 0; i < size; i++) {
-        printf("%d %s\n", students[i].id, students[i].name);
-    }
-
-    return 0;
-}
+    return sorted_students
 ```
 ???
