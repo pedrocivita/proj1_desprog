@@ -11,7 +11,7 @@ Após montar tais pilhas seu trabalho teria sido realizado, e caso fosse pedido 
 Roupas e Números
 ---------
 
-A estratégia demonstrada pode ser pensada como algo intuitivo em ordenações como a situação apresentada, onde existem poucas classificações de ordenação e possivelmente muitos valores a serem ordenados, portanto vamos generalizar um pouco nosso problema, demonstando uma maneira de realizar tal ordenação de modo um pouco menos intuitivo mas extremamente eficiente, seguindo o mesmo princípio.
+A estratégia demonstrada pode ser pensada como algo intuitivo em ordenações como a situação apresentada, onde existem poucas classificações de ordenação e possivelmente muitos valores a serem ordenados, portanto vamos generalizar um pouco nosso problema, demonstando uma maneira de realizar tal ordenação de modo um pouco menos intuitivo mas extremamente eficiente, seguindo o mesmo princípio. 
 
 Vamos visualizar nossas roupas como o vetor apresentado a seguir:
 
@@ -67,7 +67,77 @@ P, M, G, GG
 
 Ótimo, agora possuímos um novo vetor representando o número de ocorrências de cada tamanho já ordenado por sua ordem de grandeza.
 
+## Vetor de Ocorrências Somadas
+
+Essa parte pode ser um pouco complicada então vamos imaginar um vetor mais simples para facilitar o entendimento.
+Imagine um vetor ainda representando o número de ocorrências de cada tamanho, mas agora com apenas 4 tamanhos:
+
+<div align=center>
+
+[ M , P , G , P ]
+
+</div>
+
+Como já visto anteriormente, iremos organizar os tamanhos em um novo vetor, baseado em sua ordem de grandeza:
+
+<div align=center>
+
+[ P , M , G ]
+
+</div>
+
+Agora, poderemos fazer o vetor de ocorrências já apresentado anteriormente, ou seja, substituir os valores de ocorrência encontrados pelos respectivos valores de tamanho representados:
+
+<div align=center>
+
+P, M, G
+
+[ 2 , 1 , 1 ]
+
+</div>
+
 ??? Exercício 4
+
+Intuitivamente, imagine qual será a posição do último G no vetor já ordenado.
+
+::: Solução
+
+Exatamente, na última posição do vetor ordenado.
+
+:::
+
+???
+
+O counting sort identifica isso pelo vetor de ocorrências somadas, que funciona da seguinte maneira: imagine que para cada valor de tamanho em nosso vetor de ocorrências, iremos somar o valor de seu antecessor, de modo que o primeiro valor do vetor de ocorrências somadas será igual ao primeiro valor do vetor de ocorrências, o segundo valor do vetor de ocorrências somadas será igual a soma do primeiro valor do vetor de ocorrências com o segundo valor do vetor de ocorrências, e assim sucessivamente. Como apresentado a seguir:
+
+:vet_oc_som
+
+??? Exercício 5
+Relacionando o pensamento intuitivo do exercício anterior com o vetor de ocorrências somadas, você consegue identificar a posição do último G no vetor ordenado?
+
+::: Solução
+
+:exemplo_g
+
+O último G estará na posição 4 do vetor ordenado.
+
+!!! Observação
+Para o counting sort, sempre trataremos o vetor ordenado como um vetor que vai da posição **1 até a posição n**, sendo n o tamanho do vetor.
+!!!
+
+:::
+
+???
+
+Portanto, pelo valor de ocorrências de cada tamanho representado no vetor de ocorrências somadas, podemos, inicialmente, identificar a última posição de cada tamanho no vetor ordenado. 
+
+
+
+!!! Aviso
+É importante notar que no vetor de ocorrências somadas os valores de ocorrência começam em 1, e não em 0 como usualmente em vetores. Isso se aplica ao caso do tamanho G, por exemplo, que no vetor de ocorrências somadas possui valor 4, mas no vetor ordenado estará na terceira posição.
+!!!
+
+??? Exercício 6
 Agora, iremos somar o primeiro valor do vetor no segundo valor, em sequência o segundo valor no terceiro valor e assim sucessivamente, até completarmos o vetor.
 
 ::: Solução
@@ -97,7 +167,7 @@ O exemplo acima representa a primeira iteração por completo do algoritmo, de m
 Os indíces utilizados no Novo Vetor começam no 1 pela maneira que o algoritmo é aplicado. Caso prefira pode subtrair 1 de todos os valores do vetor de ocorrências e utilizar um indíce iniciando em 0, tal qual usualmente utilizado em vetores.
 !!!
 
-??? Exercício 5
+??? Exercício 7
 Realize a segunda iteração do algoritmo, seguindo o padrão representado no exemplo.
 
 ::: Gabarito
