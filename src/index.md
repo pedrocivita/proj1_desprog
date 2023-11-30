@@ -117,10 +117,8 @@ Realize a segunda iteração do algoritmo, seguindo o padrão representado no ex
 Por que o Counting Sort?
 ------------
 
-O Counting Sort é ideal e apresenta complexidade *O(n)* para situações com baixa variação nos valores de entrada e é particularmente útil quando os dados são números inteiros positivos.
+O Counting Sort é ideal para situações com baixa variação nos valores de entrada, uma vez que em tais casos, nos quais o tamanho da entrada é maior que a variedade de valores de entrada, a complexidade do código se dá por *O(n)*, além de ser particularmente útil quando os dados são números inteiros positivos, por não precisar de filtros prévios e ser um algorítimo estável. 
 
-Aplicações reais do Counting Sort
-------------
 Usos **não efetivos**:
 
 * Preços em um site, devido à presença de muitos valores decimais e variação extensa.
