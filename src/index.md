@@ -6,7 +6,17 @@ O problema das roupas
 
 Imagine a seguinte situação: Você acaba de ser contratado por uma loja de roupas e sua primeira tarefa será organizar o novo lote de roupas que acaba de chegar por tamanho (para simplificar considere 4 tamanhos : P, M, G e GG).
 A princípio tal ideia seria muito simples de ser realizada, embora possivelmente trabalhosa. Bastaria conferir o tamanho de todas as roupas e adiciona-las a pilhas referentes a seus respectivos tamanhos, de modo que haveriam ao final 4 pilhas considerando os tamanhos P, M, G e GG.
-Após montar tais pilhas seu trabalho teria sido realizado, e caso fosse pedido para que montasse uma grande pilha ordenando as roupas por sua ordem de tamanho também seria muito simples, bastaria montar uma nova pilha adicionando as anteriores pilhas montadas ordenando pela ordem de tamanho.
+
+??? Exercício Introdutório
+Após terminar seu turno de trabalho seu chefe te pede para realizar uma nova tarefa sem direito a hora extra, te pedindo para organizar tais pilhas de roupa em uma nova grande pilha, ordenando-a com as roupas de menor tamanho abaixo e maior tamanho acima. 
+
+Como você realizaria tal tarefa de maneira eficiente para poder voltar logo para sua casa?
+::: Solução
+
+Tal tarefa seria relativamente simples, bastaria sobrepor tais pilhas iniciando pelas de menor tamanho até as me maior tamanho, o que seria já por si só uma possível ordenação.
+
+:::
+???
 
 Roupas e Números
 ---------
@@ -146,6 +156,10 @@ Isso se dá porque o valor encontrado em nosso vetor de ocorrências com somas a
 
 Para então utilizar corretamente tal ferramenta, a maneira mais inteligente será sempre que passarmos por um número e encontrarmos seu index no vetor ordenado, subtrair 1 do mesmo, de modo que preencheremos os valores iguais de maneira decrescente em nosso vetor ordenado.
 
+!!! Curiosidade
+Tal característica de contagem é responsável pela estabilidade do algoritmo, uma vez que por sempre preencher os valores iguais de maneira decrescente, o algoritmo sempre manterá a ordem prévia dos valores iguais.
+!!!
+
 ## Retomando o raciocínio
 
 ??? Exercício 7
@@ -233,22 +247,30 @@ Vimos como transformar um vetor com números negativos em um vetor com números 
 ::: Solução
 Para converter o vetor em questão para aplicação do Counting Sort basta multiplicar todos os valores do vetor por 2, de modo que o vetor resultante seja [1, 3, 4, 5, 2], e após aplicação do algoritmo dividir o mesmo valor.
 
-Observa-se porém, que para tal caso a operação é menos eficiente considerando nossa implementação, uma vez que aumentaríamos a distância entre o menor e maior elemento do sistema, porém existem aplicações que desconsideram tal diferença se atendo apenas a variedade de argumentos.
+Observa-se porém, que para tal caso a operação é menos eficiente considerando nossa implementação, uma vez que aumentaríamos a distância entre o menor e maior elemento do sistema, porém existem aplicações que desconsideram tal diferença se atendo apenas a variedade de argumentos, nas quais uma operação de multiplicação não interferiria.
 :::
 ???
 
 Exercícios de Fixação
 ------------
-Uma empresa especializada em cinema está promovendo um site em que seus usúarios possam atribuir notas para diversos critérios de filmes que assistiram e comparar entre si tais notas.
+Uma empresa especializada em cinema chamada LetraCaixa está promovendo um site em que seus usúarios possam atribuir notas para diversos critérios de filmes que assistiram e comparar entre si tais notas.
+
 Por se tratar de um site interativo, no qual outros usúarios possam visualizar suas notas em tempo real, é esperado que tal algoritmo seja rapido.
+
 A empresa está disposta a lidar com memória auxíliar, e o algoritmo precisa ser também estável, uma vez que tal ordenação se dará por diversos critérios de notas.
+
 Tais notas podem variar de 1 a 5 com intervalos de números inteiros.
+
 ??? Exercício de Fixação 1
 
 Para o caso acima, você acredita que o Counting Sort seria um algoritmo de ordenação efetivo?
 
 ::: Gabarito
 Sim, em tal caso o Counting Sort seria o algoritmo de ordenação perfeito, atendendo a todas as demandas do cliente.
+
+Counting Sort é extremamente eficiente para casos de ordenação em que a variedade de valores é menor que o tamanho do vetor, e como em tal caso a variedade de valores é de 5 e o tamanho do vetor é de milhares de filmes, o algoritmo seria extremamente efetivo.
+
+Counting Sort é um algoritmo estável, atendendo a demanda de diversos critérios de nota, e embora utilize memória auxíliar, o cliente estava disposto a lidar com tal fator.
 :::
 
 ???
@@ -259,7 +281,8 @@ Para o caso das notas poderem ser atribuídas de 1 a 10, contando com notas queb
 
 ::: Gabarito
 Levando em consideração o critério de que o algoritmo não trabalha com números não inteiros pode-se afirmar que não.
-Todávia, como mencionado anteriormente, o algoritmo não trabalha bem específicamente com intervalos de números contínuos, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algoritmo efetivo.
+
+Todávia, embora mencionado anteriormente que o algoritmo não trabalha bem específicamente com intervalos de números contínuos, mas pode ser utilizado para tal, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algoritmo efetivo.
 :::
 
 ???
@@ -319,7 +342,7 @@ Além disso, visando um melhor entendimento do esquema abaixo, o vetor original 
 Complexidade do Algoritmo
 ------------
 Anterioremente foi mencionado que o Counting Sort apresenta complexidade *O( n + k )*, mas como se dá tal relação com o algoritmo aplicado?
-Para isso iremos analisar o a seguinte implementação do código e entender melhor sua complexidade.
+Não precisa ter medo, pois agora iremos analisar a seguinte implementação do código e entender melhor sua complexidade.
 
 ```python
 def counting_sort(v):
@@ -418,7 +441,7 @@ Por fim possuímos mais um loop simples, ocasionando em uma complexidade *O( n )
 ```
 :::
 ???
-??? Desafio Supremo de Complexidade
+??? Exercício Final de Complexidade
 Agora que já conhecemos a complexidade de cada trecho de código, você consegue descobrir a complexidade final do algoritmo?
 :::Solução
 A complexidade final do algoritmo é dada pela maior complexidade de cada trecho de código.
@@ -471,3 +494,5 @@ def counting_sort_students(students):
     return sorted_students
 ```
 ???
+
+![VLW FAMILIA TMJ](bilinha.jpg)
