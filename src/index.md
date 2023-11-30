@@ -187,10 +187,8 @@ Realize a segunda iteração do algoritmo, seguindo o padrão representado no ex
 Por que o Counting Sort?
 ------------
 
-O Counting Sort é ideal e apresenta complexidade *O(n)* para situações com baixa variação nos valores de entrada e é particularmente útil quando os dados são números inteiros positivos.
+O Counting Sort é ideal para situações com baixa variação nos valores de entrada, uma vez que em tais casos, nos quais o tamanho da entrada é maior que a variedade de valores de entrada, a complexidade do código se dá por *O(n)*, além de necessitar que o vetor seja composto por números inteiros positivos para seu devido funcionamento.
 
-Aplicações reais do Counting Sort
-------------
 Usos **não efetivos**:
 
 * Preços em um site, devido à presença de muitos valores decimais e variação extensa.
@@ -203,9 +201,23 @@ Usos **efetivos**:
 * Votos em uma eleição com um número limitado de candidatos, perfeitos para a contagem e reagrupamento rápido.
 * Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.
 
-!!!Observação
-É possível aplicar o Counting Sort para vetores de valores negativos e contínuos através de operações de adição e multiplicação dos valores, sendo mais simples e aplicável com valores negativos que dependem somente de soma (*inteiros*). Se fosse um vetor de valores contínuos(*floats*), por exemplo, a quantidade de multiplicações necessárias para ajustar os valores prejudicariam muito a eficiência do código.
-!!!
+??? Desafio Extra
+Foi anteriormente mencionado que o Counting Sort necessita de vetores de números inteiros positivos para seu devido funcionamento, porém isso não significa que o algoritmo não possa ser adaptado para outros tipos de vetores.
+Como você adaptaria o seguinte vetor para aplicação do counting sort?
+<div align=center>[-5, 3, -2 , 1 , 2 , 3, -3]</div>
+:::Solução
+Para adaptar o vetor em questão para aplicação do Counting Sort basta somar 5 a todos os valores do vetor, de modo que o vetor resultante seja [0, 8, 3, 6, 7, 8, 2], e após aplicação do algoritmo subtrair o mesmo valor.
+
+Em casos de vetores com números negativos, basta uma operação de soma nos valores do vetor para possibilitar aplicação do counting sort.
+???
+??? Desafio Extra Parte 2
+Vimos como transformar um vetor com números negativos em um vetor com números positivos, mas e se o vetor possuir números decimais como o demonstrado a seguir, como você o converteria para aplicação do Counting Sort?
+<div align=center>[0.5 , 1.5, 2, 2.5, 1]</div>
+:::Solução
+Para converter o vetor em questão para aplicação do Counting Sort basta multiplicar todos os valores do vetor por 2, de modo que o vetor resultante seja [1, 3, 4, 5, 2], e após aplicação do algoritmo dividir o mesmo valor.
+
+Observa-se porém, que para tal caso a operação é menos eficiente, uma vez que a multiplicação dos números decimais aumenta o intervalo entre os valores, e como veremos mais a frente no handout, a complexidade do algorítimo depende não somente do valor de entrada mas também da variedade de valores de entrada.
+???
 
 Exercícios de Fixação
 ------------
@@ -314,6 +326,17 @@ def counting_sort(v):
     return sorted_v
 ```
 
+Para cada um dos trechos de códigos apresentados nos exercícios a seguir, defina a complexidade de cada linha e complexidade final do trecho:
+
+??? Exercício Complexidade 1
+
+```python 
+    range_size = max(v) + 1            
+    count = [0] * range_size          
+    sorted_v = [0] * len(v)            
+```
+
+::: Solução
 Já nas primeiras linhas observamos a complexidade *O( n )*, uma vez que o algoritmo utiliza da função *max( )*, que percorre todo o vetor para encontrar o maior valor. Em sequência observamos duas linhas de complexidade *O( 1 )*, de complexidade constante.
 
 ```python 
@@ -321,26 +344,75 @@ Já nas primeiras linhas observamos a complexidade *O( n )*, uma vez que o algor
     count = [0] * range_size           #O(1)
     sorted_v = [0] * len(v)            #O(1)
 ```
+:::
+???
+
+??? Exercício Complexidade 2
+
+```python 
+    for num in v:                   
+        count[num] += 1              
+```
+
+::: Solução
 No loop seguinte observamos um loop simples, que percorre todo o vetor, portanto de complexidade *O( n )*.
 
 ```python 
     for num in v:                      #O(n)
         count[num] += 1                #O(1)
 ```
-Em sequência temos um loop responsávvel pela complexidade dita como *O( n + k )*, uma vez que o mesmo percorre a varíavel **range_size**, que é fruto da operação *max( v )*, fazendo com que o algoritmo dependa não somente do número da entrada, mas também da difereça entre os valores de entrada, ou em versões mais sofisticadas do algoritmo, da variedade de valores de entrada.
+:::
+???
 
+??? Exercício Complexidade 3
+
+```python 
+    for i in range(1, range_size):     
+        count[i] += count[i - 1]               
+```
+
+::: Solução
+Em sequência temos um loop que percorre a varíavel **range_size**, a qual é fruto da operação *max(v)* e representa a variedade de valores no vetor de entrada. Portanto entendemos que nossa complexidade não depende apenas mais do valor de entrada, mas também de sua variedade de valores.
+
+Para simplificação da notação chamaremos tal varíavel de k, ocasionando para uma complexidade *O(k)* no trecho específicado.
 ```python 
     for i in range(1, range_size):     #O(k)
         count[i] += count[i - 1]       #O(1)
 ```
+:::
+???
 
-Por fim possuímos mais um loop simples, totalizando ao nosso código três iterações de complexidade *O( n )* e uma iteração de complexidade *O( k )*, resultando na complexidade *O( n + k )*.
+??? Exercício Complexidade 4
+
+```python 
+    for num in reversed(v):           
+        sorted_v[count[num] - 1] = num 
+        count[num] -= 1                           
+```
+
+::: Solução
+Por fim possuímos mais um loop simples, ocasionando em uma complexidade *O( n )*.
 
 ```python 
     for num in reversed(v):            #O(n)
         sorted_v[count[num] - 1] = num #O(1)
         count[num] -= 1                #O(1)
 ```
+:::
+???
+??? Desafio Supremo de Complexidade
+Agora que já conhecemos a complexidade de cada trecho de código, você consegue descobrir a complexidade final do algoritmo?
+:::Solução
+A complexidade final do algoritmo é dada pela maior complexidade de cada trecho de código.
+
+Uma vez que temos como maiores complexidades *O( n )* e *O( k )* podemos concluir que a complexidade final do algoritmo é *O( n + k )*.
+
+Para casos em que O( n ) > O( k ) podemos simplificar a complexidade para *O( n )*, uma vez que a complexidade de um algoritmo é dada pela maior complexidade de seu trecho de código.
+:::
+???
+
+
+
 
 Desafio
 ---------
