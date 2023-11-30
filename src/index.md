@@ -108,18 +108,18 @@ Exatamente, na última posição do vetor ordenado.
 
 ???
 
-O counting sort identifica isso pelo vetor de ocorrências somadas, que funciona da seguinte maneira: imagine que para cada valor de tamanho em nosso vetor de ocorrências, iremos somar o valor de seu antecessor, de modo que o primeiro valor do vetor de ocorrências somadas será igual ao primeiro valor do vetor de ocorrências, o segundo valor do vetor de ocorrências somadas será igual a soma do primeiro valor do vetor de ocorrências com o segundo valor do vetor de ocorrências, e assim sucessivamente. Como apresentado a seguir:
+O counting sort identifica isso pelo vetor de ocorrências somadas, que funciona da seguinte maneira: para cada valor de nosso vetor iremos somar o valor antecessor a ele, iniciando do segundo valor da lista e acumulando os resultados, de modo que o último valor do vetor será a soma de todos os valores antecessores a ele tal qual apresentado abaixo:
 
 :vet_oc_som
 
 ??? Exercício 5
-Relacionando o pensamento intuitivo do exercício anterior com o vetor de ocorrências somadas, você consegue identificar a posição do último G no vetor ordenado?
+Utilizando dessa operação de soma acumulada de vetor, você nota alguma relação entre o posicionamento do valor G em nosso vetor ordenado.
 
 ::: Solução
 
-:exemplo_g
+O valor G estará na última posição, ou posição 4, considerando o vetor iniciando no index 1.
 
-O último G estará na posição 4 do vetor ordenado.
+:exemplo_g
 
 !!! Observação
 Para o counting sort, sempre trataremos o vetor ordenado como um vetor que vai da posição **1 até a posição n**, sendo n o tamanho do vetor.
@@ -129,10 +129,35 @@ Para o counting sort, sempre trataremos o vetor ordenado como um vetor que vai d
 
 ???
 
-Portanto, observamos que o index do vetor ordenado, iniciando-se em 1, se relaciona diretamente com o respectivo valor no vetor de ocorrências somado.
-
 ??? Exercício 6
-Agora, iremos somar o primeiro valor do vetor no segundo valor, em sequência o segundo valor no terceiro valor e assim sucessivamente, até completarmos o vetor.
+Portanto, observamos que o index do vetor ordenado se relaciona diretamente com o respectivo valor no vetor de ocorrências somado, todávia não de forma tão simples.
+
+Encontre seguindo o mesmo racícinio o index do valor P em nosso vetor ordenado.
+
+::: Solução
+
+O valor P estará na segunda posição, o que pode parecer estranho, uma vez que possuímos 2 valores P, que se encontrarão nas posições 1 e 2 em nosso vetor ordenado.
+
+:::
+
+???
+
+Isso se dá porque o valor encontrado em nosso vetor de ocorrências com somas acumuladas se relaciona ao o index do *último* valor de mesmo tipo em nosso vetor ordenado, ou seja, o valor P se encontra na segunda posição do vetor ordenado pois o último valor P se encontra na segunda posição do vetor original.
+
+Para então utilizar corretamente tal ferramenta, a maneira mais inteligente será sempre que passarmos por um número e encontrarmos seu index no vetor ordenado, subtrair 1 do mesmo, de modo que preencheremos os valores iguais de maneira decrescente em nosso vetor ordenado.
+
+## Retomando o raciocínio
+
+??? Exercício 7
+Agora, iremos voltar a nosso vetor original. Como se daria a aplicação dessa mesma regra de soma acumulada em nosso vetor de ocorrências previamente construído
+
+<div align=center>
+
+P, M, G, GG
+
+[ 3 , 3 , 3 , 2 ]
+
+</div>
 
 ::: Solução
 <div align=center>
@@ -145,36 +170,29 @@ P, M, G, GG
 :::
 ???
 
-Atráves desse novo vetor iremos realizar o passo final de nossa ordenação.
-Imagine um novo vetor de tamanho igual ao vetor original no qual serão salvos os valores de maneira ordenada.
-Iremos portanto, passar valor por valor de nosso vetor original e identificar esse valor em nosso vetor de ocorrências somadas, portanto iremos adicionar valor ao nosso novo vetor gerado utilizando como index do mesmo o valor adquirido do nosso vetor de ocorrências somadas.
-Por fim devemos subtrair um do index em questão de nosso vetor de ocorrências somado.
-Ficou confuso? Observe o exemplo a seguir representando a primeira interação desse passo no vetor observado.
+Agora que possuímos nosso vetor de ocorrências com somas acumuladas, podemos aplicar a mesma regra de indexação para encontrar a posição de cada um dos valores em nosso vetor ordenado seguindo a seguinte regra:
 
-## **Primeira iteração do Algoritmo:**
+- Percorreremos nosso vetor original de maneira crescente
+
+- Para cada valor, relacionaremos seu index no vetor ordenado com o valor de seu index no vetor de ocorrências somadas
+
+- Subtrairemos 1 de tal valor no vetor de ocorrências somadas
+
+Para melhor entendimento da ideia, observe o exemplo a seguir representando a primeira iteração do loop:
 
 :ord_roupas_loop1
 
-O exemplo acima representa a primeira iteração por completo do algoritmo, de modo que se as iterações fossem realizadas até o fim o vetor estaria completamente ordenado.
-
-!!!Observação
-Os indíces utilizados no Novo Vetor começam no 1 pela maneira que o algoritmo é aplicado. Caso prefira pode subtrair 1 de todos os valores do vetor de ocorrências e utilizar um indíce iniciando em 0, tal qual usualmente utilizado em vetores.
-!!!
-
-??? Exercício 7
+??? Exercício 8
 Realize a segunda iteração do algoritmo, seguindo o padrão representado no exemplo.
 
 ::: Gabarito
-
-## **Segunda iteração do Algoritmo:**
 
 :ord_roupas_loop2
 
 :::
 ???
 
-
-## **Todas as iterações do Algoritmo:**
+Abaixo segue uma ilustração de como se daria a ordenação completa de nosso vetor utilizando o Counting Sort:
 
 :ord_roupas
 
