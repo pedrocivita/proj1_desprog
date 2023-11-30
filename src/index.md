@@ -204,19 +204,25 @@ Usos **efetivos**:
 ??? Desafio Extra
 Foi anteriormente mencionado que o Counting Sort necessita de vetores de números inteiros positivos para seu devido funcionamento, porém isso não significa que o algoritmo não possa ser adaptado para outros tipos de vetores.
 Como você adaptaria o seguinte vetor para aplicação do counting sort?
+
 <div align=center>[-5, 3, -2 , 1 , 2 , 3, -3]</div>
-:::Solução
+
+::: Solução
 Para adaptar o vetor em questão para aplicação do Counting Sort basta somar 5 a todos os valores do vetor, de modo que o vetor resultante seja [0, 8, 3, 6, 7, 8, 2], e após aplicação do algoritmo subtrair o mesmo valor.
 
 Em casos de vetores com números negativos, basta uma operação de soma nos valores do vetor para possibilitar aplicação do counting sort.
+:::
 ???
+
 ??? Desafio Extra Parte 2
 Vimos como transformar um vetor com números negativos em um vetor com números positivos, mas e se o vetor possuir números decimais como o demonstrado a seguir, como você o converteria para aplicação do Counting Sort?
 <div align=center>[0.5 , 1.5, 2, 2.5, 1]</div>
-:::Solução
+
+::: Solução
 Para converter o vetor em questão para aplicação do Counting Sort basta multiplicar todos os valores do vetor por 2, de modo que o vetor resultante seja [1, 3, 4, 5, 2], e após aplicação do algoritmo dividir o mesmo valor.
 
-Observa-se porém, que para tal caso a operação é menos eficiente, uma vez que a multiplicação dos números decimais aumenta o intervalo entre os valores, e como veremos mais a frente no handout, a complexidade do algorítimo depende não somente do valor de entrada mas também da variedade de valores de entrada.
+Observa-se porém, que para tal caso a operação é menos eficiente considerando nossa implementação, uma vez que aumentaríamos a distância entre o menor e maior elemento do sistema, porém existem aplicações que desconsideram tal diferença se atendo apenas a variedade de argumentos.
+:::
 ???
 
 Exercícios de Fixação
