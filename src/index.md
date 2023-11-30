@@ -129,13 +129,7 @@ Para o counting sort, sempre trataremos o vetor ordenado como um vetor que vai d
 
 ???
 
-Portanto, pelo valor de ocorrências de cada tamanho representado no vetor de ocorrências somadas, podemos, inicialmente, identificar a última posição de cada tamanho no vetor ordenado. 
-
-
-
-!!! Aviso
-É importante notar que no vetor de ocorrências somadas os valores de ocorrência começam em 1, e não em 0 como usualmente em vetores. Isso se aplica ao caso do tamanho G, por exemplo, que no vetor de ocorrências somadas possui valor 4, mas no vetor ordenado estará na terceira posição.
-!!!
+Portanto, observamos que o index do vetor ordenado, iniciando-se em 1, se relaciona diretamente com o respectivo valor no vetor de ocorrências somado.
 
 ??? Exercício 6
 Agora, iremos somar o primeiro valor do vetor no segundo valor, em sequência o segundo valor no terceiro valor e assim sucessivamente, até completarmos o vetor.
