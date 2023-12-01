@@ -5,15 +5,16 @@ O problema das roupas
 ---------
 
 Imagine a seguinte situação: Você acaba de ser contratado por uma loja de roupas e sua primeira tarefa será organizar o novo lote de roupas que acaba de chegar por tamanho (para simplificar considere 4 tamanhos : P, M, G e GG).
-A princípio tal ideia seria muito simples de ser realizada, embora possivelmente trabalhosa. Bastaria conferir o tamanho de todas as roupas e adiciona-las a pilhas referentes a seus respectivos tamanhos, de modo que haveriam ao final 4 pilhas considerando os tamanhos P, M, G e GG.
+A princípio essa ideia seria muito simples de ser realizada, embora possivelmente trabalhosa. Bastaria conferir o tamanho de todas as roupas e adiciona-las a pilhas referentes a seus respectivos tamanhos, de modo que haveriam ao final 4 pilhas considerando os tamanhos P, M, G e GG.
 
 ??? Exercício Introdutório
-Após terminar seu turno de trabalho seu chefe te pede para realizar uma nova tarefa sem direito a hora extra, te pedindo para organizar tais pilhas de roupa em uma nova grande pilha, ordenando-a com as roupas de menor tamanho abaixo e maior tamanho acima. 
+Após terminar seu turno normal de trabalho seu chefe te pede para realizar uma nova tarefa (e sem direito à horas extras); ele te pede para organizar as pilhas de diferentes tamanhos de roupas em uma nova grande pilha, ordenando-a com as roupas de menores tamanhos abaixo até as de maiores tamanhos acima. 
 
-Como você realizaria tal tarefa de maneira eficiente para poder voltar logo para sua casa?
+Como você realizaria essa tarefa de maneira eficiente para poder voltar logo para sua casa?
+
 ::: Solução
 
-Tal tarefa seria relativamente simples, bastaria sobrepor tais pilhas iniciando pelas de menor tamanho até as me maior tamanho, o que seria já por si só uma possível ordenação.
+A tarefa seria relativamente simples, bastaria sobrepor as pilhas de diferentes tamanhos de roupas iniciando pelas de tamanhos menores até as de tamanhos maiores, o que seria por si só uma possível ordenação.
 
 :::
 ???
@@ -118,7 +119,7 @@ Exatamente, na última posição do vetor ordenado.
 
 ???
 
-O counting sort identifica isso pelo vetor de ocorrências somadas, que funciona da seguinte maneira: para cada valor de nosso vetor iremos somar o valor antecessor a ele, iniciando do segundo valor da lista e acumulando os resultados, de modo que o último valor do vetor será a soma de todos os valores antecessores a ele tal qual apresentado abaixo:
+O Counting Sort identifica isso pelo vetor de ocorrências somadas, que funciona da seguinte maneira: para cada valor de nosso vetor iremos somar o valor antecessor a ele, iniciando do segundo valor da lista e acumulando os resultados, de modo que o último valor do vetor será a soma de todos os valores antecessores a ele tal qual apresentado abaixo:
 
 :vet_oc_som
 
@@ -127,43 +128,49 @@ Utilizando dessa operação de soma acumulada de vetor, você nota alguma relaç
 
 ::: Solução
 
-O valor G estará na última posição, ou posição 4, considerando o vetor iniciando no index 1.
+O valor G estará na última posição, ou seja, na posição 4, considerando o vetor ordenado iniciando pelo index 1.
 
 :exemplo_g
 
 !!! Observação
-Para o counting sort, sempre trataremos o vetor ordenado como um vetor que vai da posição **1 até a posição n**, sendo n o tamanho do vetor.
+Para o Counting Sort, sempre trataremos o vetor ordenado como um vetor que vai da posição **1 até a posição n**, sendo n o tamanho do vetor.
 !!!
 
 :::
 
 ???
 
-??? Exercício 6
-Portanto, observamos que o index do vetor ordenado se relaciona diretamente com o respectivo valor no vetor de ocorrências somado, todávia não de forma tão simples.
+Portanto, observamos que o index do vetor ordenado se relaciona diretamente com o respectivo valor no vetor de ocorrências somado, todavia não de forma tão simples.
 
-Encontre seguindo o mesmo racícinio o index do valor P em nosso vetor ordenado.
+??? Exercício 6
+
+Seguindo o mesmo racícinio (utilizando o vetor de ocorrências somadas), encontre o index do valor P em nosso vetor ordenado.
 
 ::: Solução
 
-O valor P estará na segunda posição, o que pode parecer estranho, uma vez que possuímos 2 valores P, que se encontrarão nas posições 1 e 2 em nosso vetor ordenado.
+O valor P estará na segunda posição, o que, inicialmente, pode parecer estranho, uma vez que possuímos 2 valores P, que se encontrarão nas posições 1 e 2 do nosso vetor ordenado.
 
 :::
 
 ???
 
-Isso se dá porque o valor encontrado em nosso vetor de ocorrências com somas acumuladas se relaciona ao o index do *último* valor de mesmo tipo em nosso vetor ordenado, ou seja, o valor P se encontra na segunda posição do vetor ordenado pois o último valor P se encontra na segunda posição do vetor original.
+Isso se dá porque o valor encontrado em nosso vetor de ocorrências somadas se relaciona ao index do **último** valor de mesmo tipo em nosso vetor ordenado, ou seja, um dos valores P se encontra na segunda posição do vetor ordenado pois o valor encontrado no vetor de ocorrências somadas que se relaciona a ele é 2.
 
-Para então utilizar corretamente tal ferramenta, a maneira mais inteligente será sempre que passarmos por um número e encontrarmos seu index no vetor ordenado, subtrair 1 do mesmo, de modo que preencheremos os valores iguais de maneira decrescente em nosso vetor ordenado.
+Para então utilizar corretamente essa ferramenta, a maneira mais inteligente será sempre que passarmos por um número e encontrarmos seu index no vetor ordenado, subtrair 1 do valor que o representa no vetor de occrências somadas, de modo que preencheremos os valores iguais de maneira decrescente em nosso vetor ordenado.
+
+:exemplo_p
 
 !!! Curiosidade
-Tal característica de contagem é responsável pela estabilidade do algoritmo, uma vez que por sempre preencher os valores iguais de maneira decrescente, o algoritmo sempre manterá a ordem prévia dos valores iguais.
+A característica de contagem é responsável pela estabilidade do algoritmo, uma vez que por sempre preencher os valores iguais de maneira decrescente, o algoritmo sempre manterá a ordem prévia dos valores.
+
 !!!
 
 ## Retomando o raciocínio
 
+Agora, iremos voltar a nosso vetor original.
+
 ??? Exercício 7
-Agora, iremos voltar a nosso vetor original. Como se daria a aplicação dessa mesma regra de soma acumulada em nosso vetor de ocorrências previamente construído
+Como ficaria a aplicação dessa mesma regra de ocorrências somadas em nosso vetor de ocorrências previamente construído?
 
 <div align=center>
 
@@ -228,13 +235,16 @@ Usos **efetivos**:
 * Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.
 
 ??? Desafio Extra
-Foi anteriormente mencionado que o Counting Sort necessita de vetores de números inteiros positivos para seu devido funcionamento, porém isso não significa que o algoritmo não possa ser adaptado para outros tipos de vetores.
-Como você adaptaria o seguinte vetor para aplicação do counting sort?
+Foi anteriormente mencionado que o Counting Sort necessita de vetores de números inteiros positivos para seu devido funcionamento, porém isso não significa que o algoritmo não possa ser adaptado para outros tipos de vetores. Como você adaptaria o seguinte vetor para aplicação do Counting Sort?
 
-<div align=center>[-5, 3, -2 , 1 , 2 , 3, -3]</div>
+<div align=center>
+
+[ -5 , 3 , -2 , 1 , 2 , 3, -3 ]
+
+</div>
 
 ::: Solução
-Para adaptar o vetor em questão para aplicação do Counting Sort basta somar 5 a todos os valores do vetor, de modo que o vetor resultante seja [0, 8, 3, 6, 7, 8, 2], e após aplicação do algoritmo subtrair o mesmo valor.
+Para adaptar o vetor em questão para aplicação do Counting Sort basta somar 5 a todos os valores do vetor, de modo que o vetor resultante seja [ 0 , 8 , 3 , 6 , 7 , 8 , 2 ], e após aplicação do algoritmo subtrair o mesmo valor.
 
 Em casos de vetores com números negativos, basta uma operação de soma nos valores do vetor para possibilitar aplicação do counting sort.
 :::
@@ -242,10 +252,15 @@ Em casos de vetores com números negativos, basta uma operação de soma nos val
 
 ??? Desafio Extra Parte 2
 Vimos como transformar um vetor com números negativos em um vetor com números positivos, mas e se o vetor possuir números decimais como o demonstrado a seguir, como você o converteria para aplicação do Counting Sort?
-<div align=center>[0.5 , 1.5, 2, 2.5, 1]</div>
+
+<div align=center>
+
+[ 0.5 , 1.5 , 2 , 2.5 , 1]
+
+</div>
 
 ::: Solução
-Para converter o vetor em questão para aplicação do Counting Sort basta multiplicar todos os valores do vetor por 2, de modo que o vetor resultante seja [1, 3, 4, 5, 2], e após aplicação do algoritmo dividir o mesmo valor.
+Para converter o vetor em questão para aplicação do Counting Sort basta multiplicar todos os valores do vetor por 2, de modo que o vetor resultante seja [ 1 , 3 , 4 , 5 , 2 ] e, após aplicação do algoritmo dividir o mesmo valor.
 
 Observa-se porém, que para tal caso a operação é menos eficiente considerando nossa implementação, uma vez que aumentaríamos a distância entre o menor e maior elemento do sistema, porém existem aplicações que desconsideram tal diferença se atendo apenas a variedade de argumentos, nas quais uma operação de multiplicação não interferiria.
 :::
