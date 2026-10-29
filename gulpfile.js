@@ -16,8 +16,13 @@ const STATIC = ['src/**/*', '!src/**/vid/**/*', `!${SOURCE}`, `!${SNIPPETS}`];
 const ASSETS = ['resources/**/css/*', 'resources/**/fonts/*', 'resources/**/icons/*', 'resources/**/js/*'];
 
 
+// `npm run dev` builds into site/ (gitignored) and watches for changes.
+// `npm run build` builds the published copy into docs/ (served by GitHub Pages).
+let DEST = 'site';
+
+
 function clean() {
-    return del(['site/*']);
+    return del([`${DEST}/*`, `!${DEST}/.nojekyll`]);
 }
 
 
@@ -25,19 +30,24 @@ function compile() {
     return gulp.src(SOURCE)
         .pipe(cache('compile'))
         .pipe(orfalius(TEMPLATE))
-        .pipe(gulp.dest('site'));
+        .pipe(gulp.dest(DEST));
 }
 
 function copyStatic() {
     return gulp.src(STATIC)
         .pipe(cache('copy'))
-        .pipe(gulp.dest('site'));
+        .pipe(gulp.dest(DEST));
 }
 
 function copyAssets() {
     return gulp.src(ASSETS)
         .pipe(cache('copy'))
-        .pipe(gulp.dest('site'));
+        .pipe(gulp.dest(DEST));
+}
+
+function useDocs(done) {
+    DEST = 'docs';
+    done();
 }
 
 
@@ -48,6 +58,15 @@ function watch() {
 }
 
 gulp.task('clean', clean);
+
+gulp.task('build', gulp.series(
+    useDocs,
+    clean,
+    gulp.parallel(
+        compile,
+        copyStatic,
+        copyAssets)
+));
 
 gulp.task('default', gulp.series(
     gulp.parallel(
