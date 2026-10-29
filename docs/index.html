@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Counting Sort</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans+Condensed:ital,wght@0,300;1,300&family=Open+Sans:ital,wght@0,300;0,400;0,700;0,800;1,300;1,400;1,700;1,800&family=Oxygen+Mono&family=Josefin+Sans:ital,wght@0,200;0,600;1,200;1,600&display=swap">
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/highlight.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/color.css">
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+        <script src="assets/js/highlight.js"></script>
+        <script src="assets/js/script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <a href="">abrir tudo</a>
+                <a href="">fechar tudo</a>
+            </header>
+            <main>
+
+<h1>Counting Sort</h1>
+<h2>O problema das roupas</h2>
+<p>Imagine a seguinte situação: Você acaba de ser contratado por uma loja de roupas e sua primeira tarefa será organizar o novo lote de roupas que acaba de chegar por tamanho (para simplificar considere 4 tamanhos : P, M, G e GG).
+A princípio essa ideia seria muito simples de ser realizada, embora possivelmente trabalhosa. Bastaria conferir o tamanho de todas as roupas e adiciona-las a pilhas referentes a seus respectivos tamanhos, de modo que haveriam ao final 4 pilhas considerando os tamanhos P, M, G e GG.</p>
+<blockquote class="question">
+<p>Exercício Introdutório</p>
+<p>Após terminar seu turno normal de trabalho seu chefe te pede para realizar uma nova tarefa (e sem direito à horas extras); ele te pede para organizar as pilhas de diferentes tamanhos de roupas em uma nova grande pilha, ordenando-a com as roupas de menores tamanhos abaixo até as de maiores tamanhos acima.</p>
+<p>Como você realizaria essa tarefa de maneira eficiente para poder voltar logo para sua casa?</p>
+<details class="answer">
+<summary>Solução</summary>
+<p>A tarefa seria relativamente simples, bastaria sobrepor as pilhas de diferentes tamanhos de roupas iniciando pelas de tamanhos menores até as de tamanhos maiores, o que seria por si só uma possível ordenação.</p>
+</details>
+</blockquote>
+<h2>Roupas e Números</h2>
+<p>A estratégia demonstrada pode ser pensada como algo intuitivo em ordenações como a situação apresentada, onde existem poucas classificações de ordenação e possivelmente muitos valores a serem ordenados, portanto vamos generalizar um pouco nosso problema, demonstando uma maneira de realizar tal ordenação de modo um pouco menos intuitivo mas extremamente eficiente, seguindo o mesmo princípio.</p>
+<p>Vamos visualizar nossas roupas como o vetor apresentado a seguir:</p>
+<div align="center">
+<p>[ G , P , M , GG , P , G , GG , P , G , M , M]</p>
+</div>
+<blockquote class="question">
+<p>Exercício 1</p>
+<p>Primeiramente, conte o número de ocorrências de cada um dos tamanhos apresentado no vetor.</p>
+<details class="answer">
+<summary>Solução</summary>
+<div align="center">
+<p>P = 3</p>
+<p>M = 3</p>
+<p>G = 3</p>
+<p>GG = 2</p>
+</div>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 2</p>
+<p>Em sequência, embora pareça um pouco óbvio, organize os tamanhos apresentados em um novo vetor, baseado em sua ordem de grandeza.</p>
+<details class="answer">
+<summary>Solução</summary>
+<div align="center">
+<p>[ P , M , G , GG ]</p>
+</div>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 3</p>
+<p>Nesse novo vetor, substitua os valores de ocorrência encontrados pelos respectivos valores de tamanho representados.</p>
+<details class="answer">
+<summary>Solução</summary>
+<div align="center">
+<p>P, M, G, GG</p>
+<p>[ 3 , 3 , 3 , 2 ]</p>
+</div>
+</details>
+</blockquote>
+<p>Ótimo, agora possuímos um novo vetor representando o número de ocorrências de cada tamanho já ordenado por sua ordem de grandeza.</p>
+<h2>Vetor de Ocorrências Somadas</h2>
+<p>Essa parte pode ser um pouco complicada então vamos imaginar um vetor mais simples para facilitar o entendimento.
+Imagine um vetor ainda representando o número de ocorrências de cada tamanho, mas agora com apenas 4 tamanhos:</p>
+<div align="center">
+<p>[ M , P , G , P ]</p>
+</div>
+<p>Como já visto anteriormente, iremos organizar os tamanhos em um novo vetor, baseado em sua ordem de grandeza:</p>
+<div align="center">
+<p>[ P , M , G ]</p>
+</div>
+<p>Agora, poderemos fazer o vetor de ocorrências já apresentado anteriormente, ou seja, substituir os valores de ocorrência encontrados pelos respectivos valores de tamanho representados:</p>
+<div align="center">
+<p>P, M, G</p>
+<p>[ 2 , 1 , 1 ]</p>
+</div>
+<blockquote class="question">
+<p>Exercício 4</p>
+<p>Intuitivamente, imagine qual será a posição do último G no vetor já ordenado.</p>
+<details class="answer">
+<summary>Solução</summary>
+<p>Exatamente, na última posição do vetor ordenado.</p>
+</details>
+</blockquote>
+<p>O Counting Sort identifica isso pelo vetor de ocorrências somadas, que funciona da seguinte maneira: para cada valor de nosso vetor iremos somar o valor antecessor a ele, iniciando do segundo valor da lista e acumulando os resultados, de modo que o último valor do vetor será a soma de todos os valores antecessores a ele tal qual apresentado abaixo:</p>
+<div class="animation"><img class="frame" src="img/vet_oc_som/Slide1.PNG" alt="1"><img class="frame" src="img/vet_oc_som/Slide2.PNG" alt="2"><img class="frame" src="img/vet_oc_som/Slide3.PNG" alt="3"><img class="frame" src="img/vet_oc_som/Slide4.PNG" alt="4"><img class="frame" src="img/vet_oc_som/Slide5.PNG" alt="5"><img class="frame" src="img/vet_oc_som/Slide6.PNG" alt="6"><img class="frame" src="img/vet_oc_som/Slide7.PNG" alt="7"></div>
+<blockquote class="question">
+<p>Exercício 5</p>
+<p>Utilizando dessa operação de soma acumulada de vetor, você nota alguma relação entre o posicionamento do valor G em nosso vetor ordenado.</p>
+<details class="answer">
+<summary>Solução</summary>
+<p>O valor G estará na última posição, ou seja, na posição 4, considerando o vetor ordenado iniciando pelo index 1.</p>
+<div class="animation"><img class="frame" src="img/exemplo_g/Slide1.PNG" alt="1"><img class="frame" src="img/exemplo_g/Slide2.PNG" alt="2"><img class="frame" src="img/exemplo_g/Slide3.PNG" alt="3"><img class="frame" src="img/exemplo_g/Slide4.PNG" alt="4"><img class="frame" src="img/exemplo_g/Slide5.PNG" alt="5"></div>
+<blockquote class="warning">
+<p>Observação</p>
+<p>Para o Counting Sort, sempre trataremos o vetor ordenado como um vetor que vai da posição <strong>1 até a posição n</strong>, sendo n o tamanho do vetor.</p>
+</blockquote>
+</details>
+</blockquote>
+<p>Portanto, observamos que o index do vetor ordenado se relaciona diretamente com o respectivo valor no vetor de ocorrências somado, todavia não de forma tão simples.</p>
+<blockquote class="question">
+<p>Exercício 6</p>
+<p>Seguindo o mesmo racícinio (utilizando o vetor de ocorrências somadas), encontre o index do valor P em nosso vetor ordenado.</p>
+<details class="answer">
+<summary>Solução</summary>
+<p>O valor P estará na segunda posição, o que, inicialmente, pode parecer estranho, uma vez que possuímos 2 valores P, que se encontrarão nas posições 1 e 2 do nosso vetor ordenado.</p>
+</details>
+</blockquote>
+<p>Isso se dá porque o valor encontrado em nosso vetor de ocorrências somadas se relaciona ao index do <strong>último</strong> valor de mesmo tipo em nosso vetor ordenado, ou seja, um dos valores P se encontra na segunda posição do vetor ordenado pois o valor encontrado no vetor de ocorrências somadas que se relaciona a ele é 2.</p>
+<p>Para então utilizar corretamente essa ferramenta, a maneira mais inteligente será sempre que passarmos por um número e encontrarmos seu index no vetor ordenado, subtrair 1 do valor que o representa no vetor de occrências somadas, de modo que preencheremos os valores iguais de maneira decrescente em nosso vetor ordenado.</p>
+<div class="animation"><img class="frame" src="img/exemplo_p/Slide1.PNG" alt="1"><img class="frame" src="img/exemplo_p/Slide2.PNG" alt="2"><img class="frame" src="img/exemplo_p/Slide3.PNG" alt="3"><img class="frame" src="img/exemplo_p/Slide4.PNG" alt="4"><img class="frame" src="img/exemplo_p/Slide5.PNG" alt="5"><img class="frame" src="img/exemplo_p/Slide6.PNG" alt="6"></div>
+<blockquote class="warning">
+<p>Curiosidade</p>
+<p>A característica de contagem é responsável pela estabilidade do algoritmo, uma vez que por sempre preencher os valores iguais de maneira decrescente, o algoritmo sempre manterá a ordem prévia dos valores.</p>
+</blockquote>
+<h2>Retomando o raciocínio</h2>
+<p>Agora, iremos voltar a nosso vetor original.</p>
+<blockquote class="question">
+<p>Exercício 7</p>
+<p>Como ficaria a aplicação dessa mesma regra de ocorrências somadas em nosso vetor de ocorrências previamente construído?</p>
+<div align="center">
+<p>P, M, G, GG</p>
+<p>[ 3 , 3 , 3 , 2 ]</p>
+</div>
+<details class="answer">
+<summary>Solução</summary>
+<div align="center">
+<p>P, M, G, GG</p>
+<p>[ 3 , 6 , 9 , 11 ]</p>
+</div>
+</details>
+</blockquote>
+<p>Agora que possuímos nosso vetor de ocorrências com somas acumuladas, podemos aplicar a mesma regra de indexação para encontrar a posição de cada um dos valores em nosso vetor ordenado seguindo a seguinte regra:</p>
+<ul>
+<li>
+<p>Percorreremos nosso vetor original de maneira crescente</p>
+</li>
+<li>
+<p>Para cada valor, relacionaremos seu index no vetor ordenado com o valor de seu index no vetor de ocorrências somadas</p>
+</li>
+<li>
+<p>Subtrairemos 1 de tal valor no vetor de ocorrências somadas</p>
+</li>
+</ul>
+<p>Para melhor entendimento da ideia, observe o exemplo a seguir representando a primeira iteração do loop:</p>
+<div class="animation"><img class="frame" src="img/ord_roupas_loop1/Slide01.PNG" alt="1"><img class="frame" src="img/ord_roupas_loop1/Slide02.PNG" alt="2"><img class="frame" src="img/ord_roupas_loop1/Slide03.PNG" alt="3"><img class="frame" src="img/ord_roupas_loop1/Slide04.PNG" alt="4"><img class="frame" src="img/ord_roupas_loop1/Slide05.PNG" alt="5"></div>
+<blockquote class="question">
+<p>Exercício 8</p>
+<p>Realize a segunda iteração do algoritmo, seguindo o padrão representado no exemplo.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<div class="animation"><img class="frame" src="img/ord_roupas_loop2/Slide06.PNG" alt="1"><img class="frame" src="img/ord_roupas_loop2/Slide07.PNG" alt="2"><img class="frame" src="img/ord_roupas_loop2/Slide08.PNG" alt="3"><img class="frame" src="img/ord_roupas_loop2/Slide09.PNG" alt="4"></div>
+</details>
+</blockquote>
+<p>Abaixo segue uma ilustração de como se daria a ordenação completa de nosso vetor utilizando o Counting Sort:</p>
+<div class="animation"><img class="frame" src="img/ord_roupas/Slide01.PNG" alt="1"><img class="frame" src="img/ord_roupas/Slide02.PNG" alt="2"><img class="frame" src="img/ord_roupas/Slide03.PNG" alt="3"><img class="frame" src="img/ord_roupas/Slide04.PNG" alt="4"><img class="frame" src="img/ord_roupas/Slide05.PNG" alt="5"><img class="frame" src="img/ord_roupas/Slide06.PNG" alt="6"><img class="frame" src="img/ord_roupas/Slide07.PNG" alt="7"><img class="frame" src="img/ord_roupas/Slide08.PNG" alt="8"><img class="frame" src="img/ord_roupas/Slide09.PNG" alt="9"><img class="frame" src="img/ord_roupas/Slide10.PNG" alt="10"><img class="frame" src="img/ord_roupas/Slide11.PNG" alt="11"><img class="frame" src="img/ord_roupas/Slide12.PNG" alt="12"><img class="frame" src="img/ord_roupas/Slide13.PNG" alt="13"><img class="frame" src="img/ord_roupas/Slide14.PNG" alt="14"><img class="frame" src="img/ord_roupas/Slide15.PNG" alt="15"><img class="frame" src="img/ord_roupas/Slide16.PNG" alt="16"><img class="frame" src="img/ord_roupas/Slide17.PNG" alt="17"><img class="frame" src="img/ord_roupas/Slide18.PNG" alt="18"><img class="frame" src="img/ord_roupas/Slide19.PNG" alt="19"><img class="frame" src="img/ord_roupas/Slide20.PNG" alt="20"><img class="frame" src="img/ord_roupas/Slide21.PNG" alt="21"><img class="frame" src="img/ord_roupas/Slide22.PNG" alt="22"><img class="frame" src="img/ord_roupas/Slide23.PNG" alt="23"><img class="frame" src="img/ord_roupas/Slide24.PNG" alt="24"><img class="frame" src="img/ord_roupas/Slide25.PNG" alt="25"><img class="frame" src="img/ord_roupas/Slide26.PNG" alt="26"><img class="frame" src="img/ord_roupas/Slide27.PNG" alt="27"><img class="frame" src="img/ord_roupas/Slide28.PNG" alt="28"><img class="frame" src="img/ord_roupas/Slide29.PNG" alt="29"><img class="frame" src="img/ord_roupas/Slide30.PNG" alt="30"><img class="frame" src="img/ord_roupas/Slide31.PNG" alt="31"><img class="frame" src="img/ord_roupas/Slide32.PNG" alt="32"><img class="frame" src="img/ord_roupas/Slide33.PNG" alt="33"><img class="frame" src="img/ord_roupas/Slide34.PNG" alt="34"><img class="frame" src="img/ord_roupas/Slide35.PNG" alt="35"><img class="frame" src="img/ord_roupas/Slide36.PNG" alt="36"><img class="frame" src="img/ord_roupas/Slide37.PNG" alt="37"><img class="frame" src="img/ord_roupas/Slide38.PNG" alt="38"><img class="frame" src="img/ord_roupas/Slide39.PNG" alt="39"><img class="frame" src="img/ord_roupas/Slide40.PNG" alt="40"><img class="frame" src="img/ord_roupas/Slide41.PNG" alt="41"><img class="frame" src="img/ord_roupas/Slide42.PNG" alt="42"><img class="frame" src="img/ord_roupas/Slide43.PNG" alt="43"><img class="frame" src="img/ord_roupas/Slide44.PNG" alt="44"><img class="frame" src="img/ord_roupas/Slide45.PNG" alt="45"><img class="frame" src="img/ord_roupas/Slide46.PNG" alt="46"></div>
+<h2>Por que o Counting Sort?</h2>
+<p>O Counting Sort é ideal para situações com baixa variação nos valores de entrada, uma vez que em tais casos, nos quais o tamanho da entrada é maior que a variedade de valores de entrada, a complexidade do código se dá por <em>O(n)</em>, além de necessitar que o vetor seja composto por números inteiros positivos para seu devido funcionamento.</p>
+<p>Usos <strong>não efetivos</strong>:</p>
+<ul>
+<li>Preços em um site, devido à presença de muitos valores decimais e variação extensa.</li>
+<li>Notas em uma sala de aula, onde as notas podem ter muitos decimais e variar de 0 a 100.</li>
+<li>Datas de eventos históricos, que tendem a ter uma grande variação e não se beneficiam da ordenação baseada em contagem.</li>
+</ul>
+<p>Usos <strong>efetivos</strong>:</p>
+<ul>
+<li>Idades de um grande grupo de pessoas, com variação geralmente entre 0 e 100.</li>
+<li>Votos em uma eleição com um número limitado de candidatos, perfeitos para a contagem e reagrupamento rápido.</li>
+<li>Ordenação de roupas por tamanho (P, M, G, GG), que podem ser convertidos em valores inteiros para ordenação eficiente.</li>
+</ul>
+<blockquote class="question">
+<p>Desafio Extra</p>
+<p>Foi anteriormente mencionado que o Counting Sort necessita de vetores de números inteiros positivos para seu devido funcionamento, porém isso não significa que o algoritmo não possa ser adaptado para outros tipos de vetores. Como você adaptaria o seguinte vetor para aplicação do Counting Sort?</p>
+<div align="center">
+<p>[ -5 , 3 , -2 , 1 , 2 , 3, -3 ]</p>
+</div>
+<details class="answer">
+<summary>Solução</summary>
+<p>Para adaptar o vetor em questão para aplicação do Counting Sort basta somar 5 a todos os valores do vetor, de modo que o vetor resultante seja [ 0 , 8 , 3 , 6 , 7 , 8 , 2 ], e após aplicação do algoritmo subtrair o mesmo valor.</p>
+<p>Em casos de vetores com números negativos, basta uma operação de soma nos valores do vetor para possibilitar aplicação do counting sort.</p>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Desafio Extra Parte 2</p>
+<p>Vimos como transformar um vetor com números negativos em um vetor com números positivos, mas e se o vetor possuir números decimais como o demonstrado a seguir, como você o converteria para aplicação do Counting Sort?</p>
+<div align="center">
+<p>[ 0.5 , 1.5 , 2 , 2.5 , 1]</p>
+</div>
+<details class="answer">
+<summary>Solução</summary>
+<p>Para converter o vetor em questão para aplicação do Counting Sort basta multiplicar todos os valores do vetor por 2, de modo que o vetor resultante seja [ 1 , 3 , 4 , 5 , 2 ] e, após aplicação do algoritmo dividir o mesmo valor.</p>
+<p>Observa-se porém, que para tal caso a operação é menos eficiente considerando nossa implementação, uma vez que aumentaríamos a distância entre o menor e maior elemento do sistema, porém existem aplicações que desconsideram tal diferença se atendo apenas a variedade de argumentos, nas quais uma operação de multiplicação não interferiria.</p>
+</details>
+</blockquote>
+<h2>Exercícios de Fixação</h2>
+<p>Uma empresa especializada em cinema chamada LetraCaixa está promovendo um site em que seus usúarios possam atribuir notas para diversos critérios de filmes que assistiram e comparar entre si tais notas.</p>
+<p>Por se tratar de um site interativo, no qual outros usúarios possam visualizar suas notas em tempo real, é esperado que tal algoritmo seja rapido.</p>
+<p>A empresa está disposta a lidar com memória auxíliar, e o algoritmo precisa ser também estável, uma vez que tal ordenação se dará por diversos critérios de notas.</p>
+<p>Tais notas podem variar de 1 a 5 com intervalos de números inteiros.</p>
+<blockquote class="question">
+<p>Exercício de Fixação 1</p>
+<p>Para o caso acima, você acredita que o Counting Sort seria um algoritmo de ordenação efetivo?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Sim, em tal caso o Counting Sort seria o algoritmo de ordenação perfeito, atendendo a todas as demandas do cliente.</p>
+<p>Counting Sort é extremamente eficiente para casos de ordenação em que a variedade de valores é menor que o tamanho do vetor, e como em tal caso a variedade de valores é de 5 e o tamanho do vetor é de milhares de filmes, o algoritmo seria extremamente efetivo.</p>
+<p>Counting Sort é um algoritmo estável, atendendo a demanda de diversos critérios de nota, e embora utilize memória auxíliar, o cliente estava disposto a lidar com tal fator.</p>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício de Fixação 2</p>
+<p>Para o caso das notas poderem ser atribuídas de 1 a 10, contando com notas quebradas como 7.5 e 3.1 e uma possibilidade de milhares de filmes no catálogo de cada cliente, o Counting Sort seria efetivo?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Levando em consideração o critério de que o algoritmo não trabalha com números não inteiros pode-se afirmar que não.</p>
+<p>Todávia, embora mencionado anteriormente que o algoritmo não trabalha bem específicamente com intervalos de números contínuos, mas pode ser utilizado para tal, e como em questão de um processo de multiplição seria possível tornar tal intervalo em cerca de 100 possibilidades de nota seria um número possivelmente menor que o número de filmes selecionados, possibilitando ao Counting Sort ainda ser um algoritmo efetivo.</p>
+</details>
+</blockquote>
+<h2>Implementação em Python</h2>
+<p>A função <strong>counting_sort</strong> abaixo ordena um vetor de números inteiros que se enquadram em um intervalo qualquer. Um vetor de contagem acumula a frequência de cada valor, e um vetor temporário organiza os elementos antes de serem recolocados no vetor original.</p>
+<p>O código a seguir ilustra a implementação da ordenação de objetos complexos usando Counting Sort em python:</p>
+<pre><code class="language-python">def counting_sort(v):
+    # Determinar o tamanho do intervalo com base no maior número no vetor
+    range_size = max(v) + 1
+    count = [0] * range_size
+    sorted_v = [0] * len(v)
+
+    # Contar as ocorrências
+    for num in v:
+        count[num] += 1
+
+    # Transformar count em posições cumulativas
+    for i in range(1, range_size):
+        count[i] += count[i - 1]
+
+    # Ordenar o vetor
+    for num in reversed(v):
+        sorted_v[count[num] - 1] = num
+        count[num] -= 1
+
+    return sorted_v
+</code></pre>
+<p>Para melhor entender essa implementação faremos um passo a passo, ou melhor, loop a loop!</p>
+<blockquote class="warning">
+<p>Observação</p>
+<p>É importante notar que a demonstração a seguir se assemelha muito com o loop de ordenação de roupas apresentado anteriormente, mas agora com um vetor de tamanho 5, de modo que o vetor de ocorrências somadas terá tamanho 5; para o exemplo a seguir consideraremos o seguinte vetor: <strong>A = [4, 1, 3, 4, 3]</strong>.</p>
+<p>Além disso, visando um melhor entendimento do esquema abaixo, o vetor original será representado por <strong>A</strong>, o vetor a ser ordenado por <strong>B</strong>, o vetor de ocorrências por <strong>C</strong> e o vetor de ocorrências somadas por <strong>C_linha</strong>.</p>
+</blockquote>
+<ul>
+<li>
+<h2><strong>Loop 1: Contar as ocorrências</strong></h2>
+</li>
+</ul>
+<div class="animation"><img class="frame" src="img/loop2/Slide1.PNG" alt="1"><img class="frame" src="img/loop2/Slide2.PNG" alt="2"><img class="frame" src="img/loop2/Slide3.PNG" alt="3"><img class="frame" src="img/loop2/Slide4.PNG" alt="4"><img class="frame" src="img/loop2/Slide5.PNG" alt="5"><img class="frame" src="img/loop2/Slide6.PNG" alt="6"></div>
+<ul>
+<li>
+<h2><strong>Loop 2: Transformar count em posições cumulativas</strong></h2>
+</li>
+</ul>
+<div class="animation"><img class="frame" src="img/loop3/Slide7.PNG" alt="1"><img class="frame" src="img/loop3/Slide8.PNG" alt="2"><img class="frame" src="img/loop3/Slide9.PNG" alt="3"></div>
+<ul>
+<li>
+<h2><strong>Loop 3: Ordenar o vetor</strong></h2>
+</li>
+</ul>
+<div class="animation"><img class="frame" src="img/loop4/Slide10.PNG" alt="1"><img class="frame" src="img/loop4/Slide11.PNG" alt="2"><img class="frame" src="img/loop4/Slide12.PNG" alt="3"><img class="frame" src="img/loop4/Slide13.PNG" alt="4"><img class="frame" src="img/loop4/Slide14.PNG" alt="5"></div>
+<h2>Complexidade do Algoritmo</h2>
+<p>Anterioremente foi mencionado que o Counting Sort apresenta complexidade <em>O( n + k )</em>, mas como se dá tal relação com o algoritmo aplicado?
+Não precisa ter medo, pois agora iremos analisar a seguinte implementação do código e entender melhor sua complexidade.</p>
+<pre><code class="language-python">def counting_sort(v):
+    # Determinar o tamanho do intervalo com base no maior número no vetor
+    range_size = max(v) + 1
+    count = [0] * range_size
+    sorted_v = [0] * len(v)
+
+    # Contar as ocorrências
+    for num in v:
+        count[num] += 1
+
+    # Transformar count em posições cumulativas
+    for i in range(1, range_size):
+        count[i] += count[i - 1]
+
+    # Ordenar o vetor
+    for num in reversed(v):
+        sorted_v[count[num] - 1] = num
+        count[num] -= 1
+
+    return sorted_v
+</code></pre>
+<p>Para cada um dos trechos de códigos apresentados nos exercícios a seguir, defina a complexidade de cada linha e complexidade final do trecho:</p>
+<blockquote class="question">
+<p>Exercício Complexidade 1</p>
+<pre><code class="language-python">    range_size = max(v) + 1            
+    count = [0] * range_size          
+    sorted_v = [0] * len(v)            
+</code></pre>
+<details class="answer">
+<summary>Solução</summary>
+<p>Já nas primeiras linhas observamos a complexidade <em>O( n )</em>, uma vez que o algoritmo utiliza da função <em>max( )</em>, que percorre todo o vetor para encontrar o maior valor. Em sequência observamos duas linhas de complexidade <em>O( 1 )</em>, de complexidade constante.</p>
+<pre><code class="language-python">    range_size = max(v) + 1            #O(n)
+    count = [0] * range_size           #O(1)
+    sorted_v = [0] * len(v)            #O(1)
+</code></pre>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício Complexidade 2</p>
+<pre><code class="language-python">    for num in v:                   
+        count[num] += 1              
+</code></pre>
+<details class="answer">
+<summary>Solução</summary>
+<p>No loop seguinte observamos um loop simples, que percorre todo o vetor, portanto de complexidade <em>O( n )</em>.</p>
+<pre><code class="language-python">    for num in v:                      #O(n)
+        count[num] += 1                #O(1)
+</code></pre>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício Complexidade 3</p>
+<pre><code class="language-python">    for i in range(1, range_size):     
+        count[i] += count[i - 1]               
+</code></pre>
+<details class="answer">
+<summary>Solução</summary>
+<p>Em sequência temos um loop que percorre a varíavel <strong>range_size</strong>, a qual é fruto da operação <em>max(v)</em> e representa a variedade de valores no vetor de entrada. Portanto entendemos que nossa complexidade não depende apenas mais do valor de entrada, mas também de sua variedade de valores.</p>
+<p>Para simplificação da notação chamaremos tal varíavel de k, ocasionando para uma complexidade <em>O(k)</em> no trecho específicado.</p>
+<pre><code class="language-python">    for i in range(1, range_size):     #O(k)
+        count[i] += count[i - 1]       #O(1)
+</code></pre>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício Complexidade 4</p>
+<pre><code class="language-python">    for num in reversed(v):           
+        sorted_v[count[num] - 1] = num 
+        count[num] -= 1                           
+</code></pre>
+<details class="answer">
+<summary>Solução</summary>
+<p>Por fim possuímos mais um loop simples, ocasionando em uma complexidade <em>O( n )</em>.</p>
+<pre><code class="language-python">    for num in reversed(v):            #O(n)
+        sorted_v[count[num] - 1] = num #O(1)
+        count[num] -= 1                #O(1)
+</code></pre>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício Final de Complexidade</p>
+<p>Agora que já conhecemos a complexidade de cada trecho de código, você consegue descobrir a complexidade final do algoritmo?</p>
+<details class="answer">
+<summary>Solução</summary>
+<p>A complexidade final do algoritmo é dada pela maior complexidade de cada trecho de código.</p>
+<p>Uma vez que temos como maiores complexidades <em>O( n )</em> e <em>O( k )</em> podemos concluir que a complexidade final do algoritmo é <em>O( n + k )</em>.</p>
+<p>Para casos em que O( n ) &gt; O( k ) podemos simplificar a complexidade para <em>O( n )</em>, uma vez que a complexidade de um algoritmo é dada pela maior complexidade de seu trecho de código.</p>
+</details>
+</blockquote>
+<h2>Desafio</h2>
+<blockquote class="question">
+<p>Ordenação de Estruturas Complexas</p>
+<p>Adapte o algoritmo de Counting Sort para ordenar um array de classes <em><strong>Student</strong></em>, cada uma contendo um identificador inteiro <strong>id</strong> e um campo <strong>name</strong>. O algoritmo deve ordenar os estudantes por <strong>id</strong>.</p>
+<pre><code class="language-python">class Student:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+</code></pre>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-python">class Student:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
+def counting_sort_students(students):
+    max_id = max(student.id for student in students)
+    count = [0] * (max_id + 1)
+    sorted_students = [None] * len(students)
+
+    for student in students:
+        count[student.id] += 1
+
+    for i in range(1, max_id + 1):
+        count[i] += count[i - 1]
+
+    for student in reversed(students):
+        sorted_students[count[student.id] - 1] = student
+        count[student.id] -= 1
+
+    return sorted_students
+</code></pre>
+</details>
+</blockquote>
+<figure class="img"><img src="img/bilinha.jpg" alt="VLW FAMILIA TMJ"></figure>
+
+
+            </main>
+            <footer>
+                <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                    <img alt="CC BY-SA 4.0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" title="Creative Commons Attribution-ShareAlike 4.0 International License"/>
+                </a>
+                © 2022 Marcelo Hashimoto
+            </footer>
+        </div>
+    </body>
+</html>

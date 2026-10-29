@@ -10,6 +10,8 @@
 
 An interactive, comprehensive educational handout on the Counting Sort algorithm, developed for the Programming Challenges (Desafios de Programação) course at Insper - Instituto de Ensino e Pesquisa. This project transforms theoretical concepts into an engaging learning experience through interactive exercises, visualizations, and practical implementations.
 
+**Read the handout:** https://pedrocivita.github.io/proj1_desprog/
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -84,7 +86,8 @@ proj1_desprog/
 ├── resources/               # Site resources
 │   ├── template.html       # HTML template
 │   └── assets/             # CSS, fonts, icons, and scripts
-├── site/                   # Generated static site (build output)
+├── docs/                   # Published static site (npm run build, served by GitHub Pages)
+├── site/                   # Local dev build (npm run dev, gitignored)
 ├── gulpfile.js            # Build configuration
 ├── orfalius.js            # Custom Markdown processor
 ├── container.js           # Utility functions
@@ -134,10 +137,10 @@ The site will be available at `http://localhost:3000` and will automatically rel
 Generate the static site for deployment:
 
 ```bash
-gulp build
+npm run build
 ```
 
-The generated site will be in the `site/` directory and can be deployed to any static hosting service.
+The generated site goes to the `docs/` directory, which GitHub Pages serves. Run this and commit `docs/` whenever `src/` changes. To preview it locally, run `python3 -m http.server 8000 -d docs` and open http://localhost:8000.
 
 ### Clean Build
 
